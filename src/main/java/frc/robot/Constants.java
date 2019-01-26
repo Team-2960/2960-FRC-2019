@@ -1,5 +1,10 @@
 package frc.robot;
 
+import com.revrobotics.CANError;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 public class Constants {
 
 //talons
@@ -9,6 +14,12 @@ public class Constants {
     public static int mLeftMasterId = 4;
     public static int mLeftFollowerId1 = 5;
     public static int mLeftFollowerId2 = 6;
+    public static int ClimbID1 = 7;
+    public static int ClimbID2 = 8;
+    public static int ballIntakeID = 9;
+    public static int wristIntakeID = 10;
+    public static int ArmID1 = 11;
+    public static int ArmID2 = 12;
 
 
 }

@@ -11,5 +11,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 
 public class Climb{
-    
+    private TalonSRX Climb1 = new TalonSRX(Constants.ClimbID1);
+    private TalonSRX Climb2 = new TalonSRX(Constants.ClimbID2);
 }

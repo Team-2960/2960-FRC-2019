@@ -11,5 +11,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 
 public class Intake{
-    
+    private TalonSRX Ball = new TalonSRX(Constants.ballIntakeID);
+    private TalonSRX Wrist = new TalonSRX(Constants.wristIntakeID);
 }
