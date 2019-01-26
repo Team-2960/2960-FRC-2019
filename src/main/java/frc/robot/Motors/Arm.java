@@ -29,9 +29,9 @@ public class Arm{
         return m_Instance;
     }
 
-    public void SetSpeed(){
-        Arm1.set();
-        Arm2.Set()
+    public void SetSpeed(double arm){
+        Arm1.set(arm);
+        Arm2.set(arm);
     }
 
 
