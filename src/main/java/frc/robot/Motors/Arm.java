@@ -15,7 +15,10 @@ import frc.robot.Constants;
 
 
 public class Arm{
+
+    //hello
     private CANSparkMax Arm1 = new CANSparkMax(Constants.ArmID1, MotorType.kBrushed);
     private CANSparkMax Arm2 = new CANSparkMax(Constants.ArmID2, MotorType.kBrushed);
+
 
 }
