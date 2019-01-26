@@ -13,4 +13,20 @@ import frc.robot.Constants;
 public class Intake{
     private TalonSRX Ball = new TalonSRX(Constants.ballIntakeID);
     private TalonSRX Wrist = new TalonSRX(Constants.wristIntakeID);
-}
+    private static Intake m_Instance;
+
+    private Intake(){
+
+    }
+    public static Intake getInstance(){
+        if (m_Instance == null) {
+            m_Instance = new Intake();
+        }
+        return m_Instance;
+    }
+
+
+
+
+
+} 
