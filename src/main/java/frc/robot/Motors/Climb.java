@@ -23,8 +23,8 @@ public class Climb{
         return m_Instance;
     }
 
-    public void SetSpeed(){
-        Climb1.Set();
-        Climb2.Set();
+    public void SetSpeed(double climb1, double climb2){
+        Climb1.set(ControlMode.PercentOutput, climb1);
+        Climb2.set(ControlMode.PercentOutput, climb2);
     }
 }
