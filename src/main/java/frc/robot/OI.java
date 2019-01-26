@@ -1,6 +1,6 @@
 package frc.robot;
 
-import frc.robot.driveTrain;
+import frc.robot.Motors.driveTrain;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class OI {
@@ -10,7 +10,7 @@ public class OI {
     public OI(){
 
     }
-    public void update(){
+    public void driveRobot(){
         drive.SetSpeed(moving.getRawAxis(5), moving.getRawAxis(1));
     }
 
