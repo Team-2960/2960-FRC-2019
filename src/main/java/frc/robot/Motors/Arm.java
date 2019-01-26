@@ -20,5 +20,19 @@ public class Arm{
     private CANSparkMax Arm1 = new CANSparkMax(Constants.ArmID1, MotorType.kBrushed);
     private CANSparkMax Arm2 = new CANSparkMax(Constants.ArmID2, MotorType.kBrushed);
 
+    private static Arm m_Instance;
+
+    public static Arm getInstance(){
+        if (m_Instance == null){
+            m_Instance = new Arm();
+        }
+        return m_Instance;
+    }
+
+    public void SetSpeed(){
+        Arm1.set();
+        Arm2.Set()
+    }
+
 
 }

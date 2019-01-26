@@ -13,4 +13,18 @@ import frc.robot.Constants;
 public class Climb{
     private TalonSRX Climb1 = new TalonSRX(Constants.ClimbID1);
     private TalonSRX Climb2 = new TalonSRX(Constants.ClimbID2);
+
+    private static Climb m_Instance;
+
+    public static Climb getInstance(){
+        if (m_Instance == null){
+            m_Instance = new Climb();
+        }
+        return m_Instance;
+    }
+
+    public void SetSpeed(){
+        Climb1.Set();
+        Climb2.Set();
+    }
 }
