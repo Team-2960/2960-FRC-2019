@@ -93,7 +93,10 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void teleopPeriodic() {
-    oi.driveRobot();
+    oi.mWrist();
+    oi.mClimb();
+    oi.mBall();
+    oi.mdrive();
   }
 
   /**

@@ -13,16 +13,16 @@ public class OI {
     private drive Left_And_Right = drive.getInstance();
     private Intake Ballintake = Intake.getInstance();
     private Intake Wristintake = Intake.getInstance();
-    private Climb mClimb = Climb.getInstance();
+    private Climb RobotClimb = Climb.getInstance();
     public OI(){
 
     }
 
-    public void driveRobot(){
+    public void mdrive(){
         Left_And_Right.SetSpeed(moving.getRawAxis(5), moving.getRawAxis(1));
     }
     
-    public void inTake(){
+    public void mBall(){
        //todo set a botton for ball intake and outtake and else
         if(){
             Ballintake.SetSpeedBall(1);
@@ -33,7 +33,8 @@ public class OI {
         else{
             Ballintake.SetSpeedBall(0);
         }
-        //todo set a botton for wrist intake and outtake and else
+    )
+    public void mWrist(){
         if(){
             Wristintake.SetSpeedWrist(1);
         }
@@ -42,17 +43,18 @@ public class OI {
         }   
         else{
             Wristintake.SetSpeedWrist(0);
-        }
+        }  
     }
-    public void climbRobot(){
+        //todo set a botton for wrist intake and outtake and else
+    public void mClimb(){
         if(){
-            mClimb.SetSpeed(1, 1);
+            RobotClimb.SetSpeed(1, 1);
         }
         else if(){
-            mClimb.SetSpeed(-1, -1);
+            RobotClimb.SetSpeed(-1, -1);
         }   
         else{
-            mClimb.SetSpeed(0, 0);
+            RobotClimb.SetSpeed(0, 0);
         }
     }
 }
