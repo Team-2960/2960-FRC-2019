@@ -4,7 +4,10 @@ import frc.robot.Motors.driveTrain;
 
 
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.Motors.*;
+import frc.robot.Motors.Intake;
+import frc.robot.Motors.driveTrain;
+import frc.robot.Motors.Arm;
+import frc.robot.Motors.Climb;
 
 public class OI {
     private Joystick moving = new Joystick(0);
