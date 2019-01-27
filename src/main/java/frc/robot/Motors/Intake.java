@@ -18,8 +18,10 @@ public class Intake{
     private Intake(){
 
     }
-    public void SetSpeed(double ball, double wrist){
+    public void SetSpeedBall(double ball){
         Ball.set(ControlMode.PercentOutput, ball);
+    }
+    public void SetSpeedWrist(double wrist){
         Wrist.set(ControlMode.PercentOutput, wrist);
     }
     public static Intake getInstance(){

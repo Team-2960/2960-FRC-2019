@@ -1,61 +1,58 @@
 package frc.robot;
 
-import frc.robot.Motors.driveTrain;
+import frc.robot.Motors.drive;
 
 
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Motors.Intake;
-import frc.robot.Motors.driveTrain;
 import frc.robot.Motors.Arm;
 import frc.robot.Motors.Climb;
 
 public class OI {
     private Joystick moving = new Joystick(0);
-    private driveTrain drive = driveTrain.getInstance();
-    private Intake balls = Intake.getInstance();
-    private Intake Wrists = Intake.getInstance();
-    private Climb Climbs = Climb.getInstance();
+    private drive Left_And_Right = drive.getInstance();
+    private Intake Ballintake = Intake.getInstance();
+    private Intake Wristintake = Intake.getInstance();
+    private Climb mClimb = Climb.getInstance();
     public OI(){
 
     }
 
     public void driveRobot(){
-        drive.SetSpeed(moving.getRawAxis(5), moving.getRawAxis(1));
+        Left_And_Right.SetSpeed(moving.getRawAxis(5), moving.getRawAxis(1));
     }
     
     public void inTake(){
        //todo set a botton for ball intake and outtake and else
         if(){
-            ball = 1;
-            Balls.SetSpeed(ball);
+            Ballintake.SetSpeedBall(1);
         }
         else if(){
-            ball = -1;
-            Balls.SetSpeed(ball);
+            Ballintake.SetSpeedBall(-1);
+        }
+        else{
+            Ballintake.SetSpeedBall(0);
         }
         //todo set a botton for wrist intake and outtake and else
         if(){
-            wrist = 1;
-            Wrists.SetSpeed(ball);
+            Wristintake.SetSpeedWrist(1);
         }
         else if(){
-            wrist = -1;
-            Wrists.SetSpeed(ball);
+            Wristintake.SetSpeedWrist(-1);
         }   
+        else{
+            Wristintake.SetSpeedWrist(0);
+        }
     }
     public void climbRobot(){
         if(){
-            climb1 = 1;
-            climb2 = 1;
-            Climbs.SetSpeed(climb1, climb2);
+            mClimb.SetSpeed(1, 1);
         }
         else if(){
-            climb1 = 1;
-            climb2 = 1;
-            Climbs.SetSpeed(climb1, climb2);
+            mClimb.SetSpeed(-1, -1);
         }   
         else{
-            Climbs.SetSpeed(0, 0);
+            mClimb.SetSpeed(0, 0);
         }
     }
 }

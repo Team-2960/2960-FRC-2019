@@ -10,7 +10,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 
-public class driveTrain {
+public class drive {
     
     //initialize ALL motors
     private TalonSRX mRightMaster = new TalonSRX(Constants.mRightMasterId);
@@ -20,13 +20,7 @@ public class driveTrain {
     private TalonSRX mLeftFollower1 = new TalonSRX(Constants.mLeftFollowerId1);
     private TalonSRX mLeftFollower2 = new TalonSRX(Constants.mLeftFollowerId2);
 
-    private static driveTrain m_Instance;
-    
-
-
-
-    
-        
+    private static drive m_Instance;
     
      private void SetupTalon(){
             //tells follower motors to follow master motors
@@ -36,14 +30,14 @@ public class driveTrain {
         mLeftFollower2.follow(mLeftMaster);
       }
       
-    public static driveTrain getInstance(){
+    public static drive getInstance(){
         if (m_Instance == null) {
-            m_Instance = new driveTrain();
+            m_Instance = new drive();
         }
         return m_Instance;
     }
 
-    private driveTrain() {
+    private drive() {
         SetupTalon();
     }
     public void SetSpeed(double right, double left){
