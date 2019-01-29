@@ -12,7 +12,15 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.vision.VisionRunner;
+import edu.wpi.first.wpilibj.vision.VisionThread;
+import frc.robot.Camera.GripPipeline;
+import com.ctre.phoenix.motorcontrol.can.*;
+import edu.wpi.cscore.UsbCamera;
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
 
 
 /**
@@ -28,6 +36,12 @@ public class Robot extends IterativeRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private OI oi;
+  private final int width = 320;
+  private final int height = 240;
+  private VisionThread webcam_thread;
+  private final Object IMG_lcok = new Object();
+  private double CenterX = 0.0;
+  UsbCamera webcam = CameraServer.getInstance().startAutomaticCapture(0);
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -39,6 +53,19 @@ public class Robot extends IterativeRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    webcam.setResolution(width, height);
+    webcam_thread = new VisionThread(webcam, new GripPipeline(), pipeline-> {
+        SmartDashboard.putNumber("webcam boxes", pipeline.filterContoursOutput().size());
+      if(!pipeline.filterContoursOutput().isEmpty()){
+        Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+        SmartDashboard.putNumber("webcan 2", r.x);
+        synchronized (IMG_lcok){
+          CenterX = r.x + (r.width/2);
+        }
+      }
+    });
+    webcam_thread.start();
   }
 
   /**
@@ -93,6 +120,14 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void teleopPeriodic() {
+
+    double CenterX2 = 0.0;
+    synchronized (IMG_lcok){
+      CenterX2 = this.CenterX;
+    }
+    SmartDashboard.putNumber("webcam", CenterX2);
+  
+
     oi.mWrist();
     oi.mClimb();
     oi.mBall();
