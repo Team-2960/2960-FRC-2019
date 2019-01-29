@@ -21,5 +21,4 @@ public class Constants {
     public static int ArmID1 = 11;
     public static int ArmID2 = 12;
 
-
 }

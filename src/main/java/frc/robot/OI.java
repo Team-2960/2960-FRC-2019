@@ -9,7 +9,7 @@ import frc.robot.Motors.Arm;
 import frc.robot.Motors.Climb;
 
 public class OI {
-    private Joystick moving = new Joystick(0);
+    private Joystick control1 = new Joystick(0);
     private drive Left_And_Right = drive.getInstance();
     private Intake Ballintake = Intake.getInstance();
     private Intake Wristintake = Intake.getInstance();
@@ -19,38 +19,38 @@ public class OI {
     }
 
     public void mdrive(){
-        Left_And_Right.SetSpeed(moving.getRawAxis(5), moving.getRawAxis(1));
+        Left_And_Right.SetSpeed(control1.getRawAxis(5), control1.getRawAxis(1));
     }
     
     public void mBall(){
-       //todo set a botton for ball intake and outtake and else
-        if(){
+       //todo set a botton for ball intake and outtake 
+        if(control1.getRawButton(1)){
             Ballintake.SetSpeedBall(1);
         }
-        else if(){
+        else if(control1.getRawButton(0)){
             Ballintake.SetSpeedBall(-1);
         }
         else{
             Ballintake.SetSpeedBall(0);
         }
-    )
+    }
     public void mWrist(){
-        if(){
+        if(control1.getRawButton(0)){
             Wristintake.SetSpeedWrist(1);
         }
-        else if(){
+        else if(control1.getRawButton(0)){
             Wristintake.SetSpeedWrist(-1);
         }   
         else{
             Wristintake.SetSpeedWrist(0);
         }  
     }
-        //todo set a botton for wrist intake and outtake and else
+        //todo set a botton for wrist intake and outtake 
     public void mClimb(){
-        if(){
+        if(control1.getRawButton(0)){
             RobotClimb.SetSpeed(1, 1);
         }
-        else if(){
+        else if(control1.getRawButton(0)){
             RobotClimb.SetSpeed(-1, -1);
         }   
         else{
