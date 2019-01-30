@@ -10,19 +10,25 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 
-public class drive {
+public class Drive {
     
     //initialize ALL motors
-    private TalonSRX mRightMaster = new TalonSRX(Constants.mRightMasterId);
-    private TalonSRX mRightFollower1 = new TalonSRX(Constants.mRightFollowerId1);
-    private TalonSRX mRightFollower2 = new TalonSRX(Constants.mRightFollowerId2);
-    private TalonSRX mLeftMaster = new TalonSRX(Constants.mLeftMasterId);
-    private TalonSRX mLeftFollower1 = new TalonSRX(Constants.mLeftFollowerId1);
-    private TalonSRX mLeftFollower2 = new TalonSRX(Constants.mLeftFollowerId2);
+    private TalonSRX mRightMaster;
+    private TalonSRX mRightFollower1;
+    private TalonSRX mRightFollower2;
+    private TalonSRX mLeftMaster;
+    private TalonSRX mLeftFollower1;
+    private TalonSRX mLeftFollower2 ;
 
-    private static drive m_Instance;
+    private static Drive m_Instance;
     
      private void SetupTalon(){
+        mRightMaster = new TalonSRX(Constants.mRightMasterId);
+        mRightFollower1 = new TalonSRX(Constants.mRightFollowerId1);
+        mRightFollower2 = new TalonSRX(Constants.mRightFollowerId2);
+        mLeftMaster = new TalonSRX(Constants.mLeftMasterId);
+        mLeftFollower1 = new TalonSRX(Constants.mLeftFollowerId1);
+        mLeftFollower2 = new TalonSRX(Constants.mLeftFollowerId2);
             //tells follower motors to follow master motors
         mRightFollower1.follow(mRightMaster);
         mRightFollower2.follow(mRightMaster);
@@ -30,14 +36,14 @@ public class drive {
         mLeftFollower2.follow(mLeftMaster);
       }
       
-    public static drive getInstance(){
+    public static Drive getInstance(){
         if (m_Instance == null) {
-            m_Instance = new drive();
+            m_Instance = new Drive();
         }
         return m_Instance;
     }
 
-    private drive() {
+    private Drive() {
         SetupTalon();
     }
     public void SetSpeed(double right, double left){
