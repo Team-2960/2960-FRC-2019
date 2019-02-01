@@ -17,6 +17,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
 import edu.wpi.first.wpilibj.vision.VisionThread;
+import frc.robot.Camera.Camera;
 import frc.robot.Camera.GripPipeline;
 import com.ctre.phoenix.motorcontrol.can.*;
 
@@ -44,19 +45,8 @@ public class Robot extends IterativeRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private OI oi;
-  private final int width = 320;
-  private final int height = 240;
-  private VisionThread webcam_thread;
-  private final Object IMG_lcok = new Object();
-  private double CenterX = 0.0;
-  GripPipeline pipeline = new GripPipeline();
-  UsbCamera camera;
-  CvSink cam_sink;
-  Mat output;
-  
-  CvSource hsv_threashold_source;
-  CvSource erode_source;
-  
+  private Camera hatchCamera;
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -64,20 +54,10 @@ public class Robot extends IterativeRobot {
   @Override
   public void robotInit() {
     oi = new OI();
-
+    hatchCamera = new Camera(0);
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-
-    camera = CameraServer.getInstance().startAutomaticCapture(0);
-    camera.setResolution(width, height);
-
-    cam_sink = CameraServer.getInstance().getVideo();
-
-    hsv_threashold_source = CameraServer.getInstance().putVideo("HSV Threshold", width, height);
-    erode_source = CameraServer.getInstance().putVideo("Erode", width, height);
-
-    output = new Mat();
 
 /* 
     webcam_thread = new VisionThread(webcam, new GripPipeline(), pipeline-> {
@@ -147,46 +127,6 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void teleopPeriodic() {
-    
-    double CenterX2 = 0.0;
-   
-   /*
-    synchronized (IMG_lcok){
-      CenterX2 = this.CenterX;
-      System.out.println(CenterX2);
-    }
-    SmartDashboard.putNumber("webcam", CenterX2);
-   */
-    long result = cam_sink.grabFrameNoTimeout(output);
-    //long result = cam_sink.grabFrame(output);
-    System.out.println("Image Test Start");
-    System.out.println(result);
-
-
-
-    if(result == 0){
-      System.out.println(cam_sink.getError());
-    }
-    else{
-      System.out.println(output.size().width);
-      System.out.println(output.size().height);
-      System.out.println("Image Test End");
-      pipeline.process(output);
-      System.out.println("Start Filter");
-      if (!pipeline.filterContoursOutput().isEmpty()){
-        Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-        System.out.println(r.x);
-        System.out.println(r.y);
-        System.out.println("hello");
-      }
-      else{
-        System.out.println("no Contours");
-      }
-      
-      hsv_threashold_source.putFrame(pipeline.hsvThresholdOutput());
-      erode_source.putFrame(pipeline.cvErodeOutput());
-    }
-
     oi.driverControl(driver);
     oi.operatorControl(operator);
     

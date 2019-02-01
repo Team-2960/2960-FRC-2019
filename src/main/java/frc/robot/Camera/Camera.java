@@ -69,6 +69,10 @@ public class Camera{
 							if (pipeline.filterContoursOutput().size() > 1)
 								visionTargets[1] = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));
 						}
+						System.out.println(visionTargets[1].x);
+						System.out.println(visionTargets[0].x);
+						System.out.println(visionTargets[1].y);
+						System.out.println(visionTargets[0].y);
 					}else{
 						System.out.println("No Contours");
 					}
