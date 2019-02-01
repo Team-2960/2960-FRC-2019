@@ -37,8 +37,8 @@ public class Camera{
 		cam_sink = CameraServer.getInstance().getVideo();
 
 		//Camera output to smartdash board
-		hsv_threashold_source = CameraServer.getInstance().putVideo("HSV Threshold", width, height);
-		erode_source = CameraServer.getInstance().putVideo("Erode", width, height);
+		hsv_threashold_source = CameraServer.getInstance().putVideo("HSV Threshold", IMG_WIDTH, IMG_HEIGHT);
+		erode_source = CameraServer.getInstance().putVideo("Erode", IMG_WIDTH, IMG_HEIGHT);
 
 		startThread();
 	}
@@ -91,12 +91,7 @@ public class Camera{
 		}
 	}
 	
-	public double getAngle(){
-		return ang;
-	}
-	public double getDistance(){
-		return pixelsFromEdgeBoiler;
-	}
+
 
 
 }
