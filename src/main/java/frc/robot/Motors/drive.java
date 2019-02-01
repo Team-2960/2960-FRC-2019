@@ -22,14 +22,16 @@ public class Drive {
 
     private static Drive m_Instance;
     
-     private void SetupTalon(){
+     private void setupTalon(){
+        //Initialize Talons
         mRightMaster = new TalonSRX(Constants.mRightMasterId);
         mRightFollower1 = new TalonSRX(Constants.mRightFollowerId1);
         mRightFollower2 = new TalonSRX(Constants.mRightFollowerId2);
         mLeftMaster = new TalonSRX(Constants.mLeftMasterId);
         mLeftFollower1 = new TalonSRX(Constants.mLeftFollowerId1);
         mLeftFollower2 = new TalonSRX(Constants.mLeftFollowerId2);
-            //tells follower motors to follow master motors
+
+        //Set follower motors
         mRightFollower1.follow(mRightMaster);
         mRightFollower2.follow(mRightMaster);
         mLeftFollower1.follow(mLeftMaster);
@@ -44,9 +46,10 @@ public class Drive {
     }
 
     private Drive() {
-        SetupTalon();
+        setupTalon();
     }
-    public void SetSpeed(double right, double left){
+
+    public void setSpeed(double right, double left){
         mLeftMaster.set(ControlMode.PercentOutput, left);
         mRightMaster.set(ControlMode.PercentOutput, right);
     }

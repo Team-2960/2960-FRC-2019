@@ -7,52 +7,47 @@ import frc.robot.Motors.Arm;
 import frc.robot.Motors.Climb;
 
 public class OI {
-    private Joystick control1 = new Joystick(0);
-    private Drive Left_And_Right = Drive.getInstance();
-    private Intake Ballintake = Intake.getInstance();
-    //private Intake Wristintake = Intake.getInstance();
-    private Climb RobotClimb = Climb.getInstance();
+    private Drive drive = Drive.getInstance();
+    private Intake intake = Intake.getInstance();
+    private Climb climb = Climb.getInstance();
     public OI(){
 
     }
 
-    public void mdrive(){
-        Left_And_Right.SetSpeed(control1.getRawAxis(5), control1.getRawAxis(1));
+    public void driverControl(Joystick driver_control){
+        drive.setSpeed(driver_control.getRawAxis(5), driver_control.getRawAxis(1));
     }
     
-    public void mBall(){
-       //todo set a botton for ball intake and outtake 
-        if(control1.getRawButton(1)){
-            Ballintake.SetSpeedBall(1);
+    public void operatorControl(Joystick operator_control){
+        //Ball intake contol 
+        if(operator_control.getRawButton(1)){       //Ball Intake
+            intake.SetSpeedBall(1);
+        }else if(operator_control.getRawButton(0)){ //Ball Output
+            intake.SetSpeedBall(-1);
+        }else{
+            intake.SetSpeedBall(0);
         }
-        else if(control1.getRawButton(0)){
-            Ballintake.SetSpeedBall(-1);
+
+        //Wrist control
+        if(operator_control.getRawButton(2)){ //Up
+            intake.SetSpeedWrist(1);
         }
-        else{
-            Ballintake.SetSpeedBall(0);
-        }
-    }
-    public void mWrist(){
-        if(control1.getRawButton(0)){
-        //    Wristintake.SetSpeedWrist(1);
-        }
-        else if(control1.getRawButton(0)){
-        //    Wristintake.SetSpeedWrist(-1);
+        else if(operator_control.getRawButton(3)){ //Down
+            intake.SetSpeedWrist(-1);
         }   
         else{
-        //    Wristintake.SetSpeedWrist(0);
+            intake.SetSpeedWrist(0);
         }  
-    }
-        //todo set a botton for wrist intake and outtake 
-    public void mClimb(){
-        if(control1.getRawButton(0)){
-            RobotClimb.SetSpeed(1, 1);
+
+        //Climber control
+        if(operator_control.getRawButton(2)){
+            climb.SetSpeed(1, 1);
         }
-        else if(control1.getRawButton(0)){
-            RobotClimb.SetSpeed(-1, -1);
+        else if(operator_control.getRawButton(3)){
+            climb.SetSpeed(-1, -1);
         }   
         else{
-            RobotClimb.SetSpeed(0, 0);
+            climb.SetSpeed(0, 0);
         }
     }
 }

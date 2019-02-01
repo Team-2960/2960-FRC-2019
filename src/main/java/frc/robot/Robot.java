@@ -11,6 +11,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.OI;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -38,6 +39,8 @@ import org.opencv.imgproc.Imgproc;
 public class Robot extends IterativeRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
+  private Joystick driver = new Joystick(0);
+  private Joystick operator = new Joystick(1);
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private OI oi;
@@ -184,14 +187,9 @@ public class Robot extends IterativeRobot {
       erode_source.putFrame(pipeline.cvErodeOutput());
     }
 
-
+    oi.driverControl(driver);
+    oi.operatorControl(operator);
     
-    //oi.mWrist();
-   // oi.mClimb();
-    //oi.mBall();
-    oi.mdrive();
-    
-
   }
 
   /**
