@@ -8,7 +8,10 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Rect;
+import org.opencv.core.RotatedRect;
 import org.opencv.imgproc.Imgproc;
 import java.util.concurrent.locks.Lock;
 
@@ -17,7 +20,7 @@ public class Camera{
 	private static final int IMG_WIDTH = 320;
 	private static final int IMG_HEIGHT = 240;
 	
-	private Rect visionTargets[] = new RotatedRect[2]; 
+	private Rect visionTargets[] = new Rect[2]; 
 
 	private UsbCamera camera;
 	private CvSink cam_sink;
@@ -69,6 +72,20 @@ public class Camera{
 						}
 						double center = ((visionTargets[0].x + visionTargets[0].width/2) + (visionTargets[1].x + visionTargets[1].width/2)) / 2;
 						System.out.println("Center: " + center);
+						
+						
+						MatOfPoint2f testMat = new MatOfPoint2f(pipeline.filterContoursOutput().get(1).toArray());
+						RotatedRect rectest = Imgproc.minAreaRect(testMat);
+						System.out.println("Target Angle" + rectest.angle);
+
+						MatOfPoint2f testMat2 = new MatOfPoint2f(pipeline.filterContoursOutput().get(0).toArray());
+						RotatedRect rectest2 = Imgproc.minAreaRect(testMat2);
+						System.out.println("Target Angle 2" + rectest2.angle);
+
+						MatOfPoint2f testMat3 = new MatOfPoint2f(pipeline.filterContoursOutput().get(2).toArray());
+						RotatedRect rectest3 = Imgproc.minAreaRect(testMat3);
+						System.out.println("Target Angle 3" + rectest3.angle);
+
 					}else{
 						System.out.println("No Contours");
 					}
