@@ -58,7 +58,6 @@ public class Camera{
 					System.out.println(cam_sink.getError());
 				}else{
 					//Use grip code to process image
-					System.out.println("Start Image Process");
 					pipeline.process(cam_frame);
 					
 					//Find countors in image
@@ -70,16 +69,10 @@ public class Camera{
 								visionTargets[1] = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));
 						}
 						double center = ((visionTargets[0].x + visionTargets[0].width/2) + (visionTargets[1].x + visionTargets[1].width/2)) / 2;
-						System.out.println(visionTargets[1].x);
-						System.out.println(visionTargets[0].x);
-						System.out.println(visionTargets[1].y);
-						System.out.println(visionTargets[0].y);
 						System.out.println("Center: " + center);
 					}else{
 						System.out.println("No Contours");
 					}
-					System.out.println("End Image Processing");
-					
 					//Output to smartdash board - It may not like having this inside the thread
 					hsv_threashold_source.putFrame(pipeline.hsvThresholdOutput());
 					erode_source.putFrame(pipeline.cvErodeOutput());
