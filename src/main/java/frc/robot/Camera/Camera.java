@@ -35,8 +35,8 @@ public class Camera{
 		cam_sink = CameraServer.getInstance().getVideo();
 
 		//Camera output to smartdash board
-		hsv_threashold_source = CameraServer.getInstance().putVideo("HSV Threshold", width, height);
-		erode_source = CameraServer.getInstance().putVideo("Erode", width, height);
+		hsv_threashold_source = CameraServer.getInstance().putVideo("HSV Threshold", IMG_WIDTH, IMG_HEIGHT);
+		erode_source = CameraServer.getInstance().putVideo("Erode", IMG_WIDTH, IMG_HEIGHT);
 
 		startThread();
 	}
@@ -56,7 +56,6 @@ public class Camera{
 					System.out.println(cam_sink.getError());
 				}else{
 					//Use grip code to process image
-					System.out.println("Start Image Process");
 					pipeline.process(cam_frame);
 					
 					//Find countors in image
@@ -68,11 +67,11 @@ public class Camera{
 								visionTargets[1] = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));
 
 						}
+						double center = ((visionTargets[0].x + visionTargets[0].width/2) + (visionTargets[1].x + visionTargets[1].width/2)) / 2;
+						System.out.println("Center: " + center);
 					}else{
 						System.out.println("No Contours");
 					}
-					System.out.println("End Image Processing");
-					
 					//Output to smartdash board - It may not like having this inside the thread
 					hsv_threashold_source.putFrame(pipeline.hsvThresholdOutput());
 					erode_source.putFrame(pipeline.cvErodeOutput());
@@ -90,12 +89,7 @@ public class Camera{
 		}
 	}
 	
-	public double getAngle(){
-		return ang;
-	}
-	public double getDistance(){
-		return pixelsFromEdgeBoiler;
-	}
+
 
 
 }
