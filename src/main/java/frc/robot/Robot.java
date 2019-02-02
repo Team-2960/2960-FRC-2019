@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.OI;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
 import edu.wpi.first.wpilibj.vision.VisionThread;
@@ -58,6 +59,13 @@ public class Robot extends IterativeRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    SmartDashboard.putNumber("HUE min", Constants.HUEmin);
+    SmartDashboard.putNumber("HUE max", Constants.HUEmax);
+    SmartDashboard.putNumber("Saturation min", Constants.Saturationmin);
+    SmartDashboard.putNumber("Saturation max", Constants.Saturationmax);
+    SmartDashboard.putNumber("HSValue min", Constants.HSValuemin);
+    SmartDashboard.putNumber("HSValue max", Constants.HSValuemax);
+
 
 /* 
     webcam_thread = new VisionThread(webcam, new GripPipeline(), pipeline-> {
@@ -127,6 +135,19 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void teleopPeriodic() {
+    Constants.HUEmin = NetworkTable.getTable("SmartDashboard").getDouble("HUE min", 0);
+    Constants.HUEmax= NetworkTable.getTable("SmartDashboard").getDouble("HUE max", 0);
+    Constants.Saturationmin = NetworkTable.getTable("SmartDashboard").getDouble("Saturation_min", 0);
+    Constants.Saturationmax = NetworkTable.getTable("SmartDashboard").getDouble("Saturation_max", 0);
+    Constants.HSValuemin = NetworkTable.getTable("SmartDashboard").getDouble("HSValue_min", 0);
+    Constants.HSValuemax = NetworkTable.getTable("SmartDashboard").getDouble("HSValue_max", 0);
+    SmartDashboard.putNumber("HUE min", Constants.HUEmin);
+    SmartDashboard.putNumber("HUE max", Constants.HUEmax);
+    SmartDashboard.putNumber("HSValue min", Constants.HSValuemin);
+    SmartDashboard.putNumber("HSValue max", Constants.HSValuemax);
+    SmartDashboard.putNumber("Saturationmax", Constants.Saturationmax);
+    SmartDashboard.putNumber("Saturation min", Constants.Saturationmin);
+
     oi.driverControl(driver);
     oi.operatorControl(operator);
     
