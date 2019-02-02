@@ -8,6 +8,7 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
@@ -19,7 +20,7 @@ public class Camera{
 	private static final int IMG_WIDTH = 320;
 	private static final int IMG_HEIGHT = 240;
 	
-	private Rect visionTargets[] = new Rect[2]; 
+	private Rect visionTargets[] = new Rect[3]; 
 
 	private UsbCamera camera;
 	private CvSink cam_sink;
@@ -27,8 +28,6 @@ public class Camera{
 
 	private CvSource hsv_threashold_source;
 	private CvSource erode_source;
-	
-	
 
 	public Camera(int cameraPort){  
 		//Setup camera
@@ -68,12 +67,27 @@ public class Camera{
 							//Is there a second contour?
 							if (pipeline.filterContoursOutput().size() > 1)
 								visionTargets[1] = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));
+							if (pipeline.filterContoursOutput().size() > 2)
+								visionTargets[2] = Imgproc.boundingRect(pipeline.filterContoursOutput().get(2));
 						}
 						double center = ((visionTargets[0].x + visionTargets[0].width/2) + (visionTargets[1].x + visionTargets[1].width/2)) / 2;
 						System.out.println("Center: " + center);
-						//MatOfPoint2f testMAT = new MatOfPoint2f(pipeline.filterContoursOutput().get(1));
-					//RotatedRect rectest = Imgproc.minAreaRect(testMAT);
-					//	System.out.println("Target Angle" + rectest.angle);
+						
+						
+						MatOfPoint2f testMat = new MatOfPoint2f(pipeline.filterContoursOutput().get(0).toArray());
+						RotatedRect rectest = Imgproc.minAreaRect(testMat);
+						System.out.println("Target Angle" + rectest.angle);
+						System.out.println("Rect1: " + visionTargets[0].x);
+						
+						MatOfPoint2f testMat2 = new MatOfPoint2f(pipeline.filterContoursOutput().get(1).toArray());
+						RotatedRect rectest2 = Imgproc.minAreaRect(testMat2);
+						System.out.println("Target Angle 2" + rectest2.angle);
+						System.out.println("Rect2: " + visionTargets[1].x);
+
+						MatOfPoint2f testMat3 = new MatOfPoint2f(pipeline.filterContoursOutput().get(2).toArray());
+						RotatedRect rectest3 = Imgproc.minAreaRect(testMat3);
+						System.out.println("Target Angle 3" + rectest3.angle);
+						System.out.println("Rect3: " + visionTargets[2].x);
 
 					}else{
 						System.out.println("No Contours");
