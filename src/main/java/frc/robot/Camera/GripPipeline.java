@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.HashMap;
 
 import edu.wpi.first.wpilibj.vision.VisionPipeline;
-
+import frc.robot.Constants;
 import org.opencv.core.*;
 import org.opencv.core.Core.*;
 import org.opencv.features2d.FeatureDetector;
@@ -42,10 +42,10 @@ public class GripPipeline implements VisionPipeline {
 	 */
 	@Override	public void process(Mat source0) {
 		// Step HSV_Threshold0:
-		Mat hsvThresholdInput = source0;
-		double[] hsvThresholdHue = {32.560428437342786, 110.96897432790306};
-		double[] hsvThresholdSaturation = {22.93165467625899, 255};
-		double[] hsvThresholdValue = {220, 254.5413669064748};
+		Mat hsvThresholdInput = source0; 
+		double[] hsvThresholdHue = {Constants.HUEmin, Constants.HUEmax};
+		double[] hsvThresholdSaturation = {Constants.Saturationmin, Constants.Saturationmax};
+		double[] hsvThresholdValue = {Constants.HSValuemin, Constants.HSValuemax};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
 		// Step CV_erode0:

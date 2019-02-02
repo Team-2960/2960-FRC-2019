@@ -20,5 +20,10 @@ public class Constants {
     public static int wristIntakeID = 10;
     public static int ArmID1 = 11;
     public static int ArmID2 = 12;
-
+    public static double HUEmin = 32.560428437342786;
+    public static double HUEmax = 110.96897432790306;
+    public static double Saturationmin = 22.93165467625899;
+    public static double Saturationmax = 255;
+    public static double HSValuemin = 32.560428437342786;
+    public static double HSValuemax = 110.96897432790306;
 }
