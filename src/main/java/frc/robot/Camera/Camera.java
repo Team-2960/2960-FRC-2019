@@ -13,14 +13,17 @@ import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
 import org.opencv.imgproc.Imgproc;
-import java.util.concurrent.locks.Lock;
+
+import java.lang.Math;
 
 public class Camera{
 	
 	private static final int IMG_WIDTH = 320;
 	private static final int IMG_HEIGHT = 240;
 	
-	private Rect visionTargets[] = new Rect[3]; 
+	private double visionTarget; 
+	private Boolean targetFound;
+	private Object IMG_LOCK;
 
 	private UsbCamera camera;
 	private CvSink cam_sink;
@@ -28,6 +31,7 @@ public class Camera{
 
 	private CvSource hsv_threashold_source;
 	private CvSource erode_source;
+	
 
 	public Camera(int cameraPort){  
 		//Setup camera
@@ -36,6 +40,8 @@ public class Camera{
 
 		//Get video from camera 
 		cam_sink = CameraServer.getInstance().getVideo();
+
+		IMG_LOCK = new Object();
 
 		//Camera output to smartdash board
 		hsv_threashold_source = CameraServer.getInstance().putVideo("HSV Threshold", IMG_WIDTH, IMG_HEIGHT);
@@ -49,48 +55,112 @@ public class Camera{
 		visionThread = new Thread(() -> {
 			GripPipeline pipeline = new GripPipeline();
 			Mat cam_frame = new Mat();
-
+			Boolean lTargetFound;
+			Double lVisionTarget;
+			
+			//Run this code as long as the thread is not interrupted
 			while(!Thread.interrupted()){
+				//reset target varibles
+				lTargetFound = false;
+				lVisionTarget = 0.0;
+
+				//Grab image from camera
 				long result = cam_sink.grabFrameNoTimeout(cam_frame);
 				
 				//Check whether we received an image
 				if(result == 0){
-					System.out.println(cam_sink.getError());
+					//System.out.println(cam_sink.getError());
+					lTargetFound = false;
 				}else{
 					//Use grip code to process image
 					pipeline.process(cam_frame);
 					
 					//Find countors in image
 					if (!pipeline.filterContoursOutput().isEmpty()){
-						synchronized(visionTargets){
-							visionTargets[0] = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-							//Is there a second contour?
-							if (pipeline.filterContoursOutput().size() > 1)
-								visionTargets[1] = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));
-							if (pipeline.filterContoursOutput().size() > 2)
-								visionTargets[2] = Imgproc.boundingRect(pipeline.filterContoursOutput().get(2));
-						}
-						double center = ((visionTargets[0].x + visionTargets[0].width/2) + (visionTargets[1].x + visionTargets[1].width/2)) / 2;
-						System.out.println("Center: " + center);
+						int numBoxes = pipeline.filterContoursOutput().size();
+						double [] RightTarget = new double[numBoxes];
+						double [] LeftTarget = new double[numBoxes];
+						double [][] matchTargets = new double[3][numBoxes];
 						
+						int rightCount = 0;
+						int leftCount = 0;
+						int matchCount = 0;
 						
-						MatOfPoint2f testMat = new MatOfPoint2f(pipeline.filterContoursOutput().get(0).toArray());
-						RotatedRect rectest = Imgproc.minAreaRect(testMat);
-						System.out.println("Target Angle" + rectest.angle);
-						System.out.println("Rect1: " + visionTargets[0].x);
-						
-						MatOfPoint2f testMat2 = new MatOfPoint2f(pipeline.filterContoursOutput().get(1).toArray());
-						RotatedRect rectest2 = Imgproc.minAreaRect(testMat2);
-						System.out.println("Target Angle 2" + rectest2.angle);
-						System.out.println("Rect2: " + visionTargets[1].x);
+						//Find target angle and center point for each contour
+						for(int count = 0; count < numBoxes; count++) {
 
-						MatOfPoint2f testMat3 = new MatOfPoint2f(pipeline.filterContoursOutput().get(2).toArray());
-						RotatedRect rectest3 = Imgproc.minAreaRect(testMat3);
-						System.out.println("Target Angle 3" + rectest3.angle);
-						System.out.println("Rect3: " + visionTargets[2].x);
+							MatOfPoint2f tempMat = new MatOfPoint2f(pipeline.filterContoursOutput().get(count).toArray());
+							RotatedRect tempAngle = Imgproc.minAreaRect(tempMat);
+							Rect tempRec = Imgproc.boundingRect(pipeline.filterContoursOutput().get(count));
+							//System.out.println("Target: " + count + " x: " + tempRec.x + " Angle: " + tempAngle.angle);
+							
+							//Is this a right target? Angle is about -14.
+							//Or is this a left target? Angle is about -75.
+							if(tempAngle.angle < 0 && tempAngle.angle > -45) {
+								RightTarget[rightCount] = tempRec.x + tempRec.width/2;
+								rightCount++;
+							}else if(tempAngle.angle < -45 && tempAngle.angle > -100) {
+								LeftTarget[leftCount] = tempRec.x + tempRec.width/2;
+								leftCount++;
+							}
+						}
+						
+						//Match Left and Right Targets
+						for(int iRight = 0; iRight < rightCount; iRight++){ //Loop thru right
+							int match = -1;
+							double lastDiffTarget = IMG_WIDTH;
+							
+							for(int iLeft = 0; iLeft < leftCount; iLeft++){ //Loop thru left
+								//Difference between left and right target
+								double diffTarget = RightTarget[iRight]-LeftTarget[iLeft];
+								//Is the target of the left (positive value)?
+								// Is it a closer than the last matching target?
+								if(diffTarget > 0 && diffTarget < lastDiffTarget){
+									lastDiffTarget = diffTarget;
+									match = iLeft;
+									//record pair of targets: right, left, center
+									matchTargets[0][matchCount] = RightTarget[iRight];
+									matchTargets[1][matchCount] = LeftTarget[iLeft];
+									matchTargets[2][matchCount] = (RightTarget[iRight] + LeftTarget[iLeft])/2;
+								}
+							}
+							if (match >= 0) matchCount++; 
+						}
+						
+						double lastCenterDist = IMG_WIDTH;
+						int centerTargets = -1;
+						//Find the closest pair to the center of the target
+						for(int i = 0; i <= matchCount; i++){
+							//Find the absolute distance (allows postive) betwen target and center
+							double tempCentDist = java.lang.Math.abs(matchTargets[2][i] - IMG_WIDTH/2);
+							//Is this closer than the last pair?
+							if (tempCentDist < lastCenterDist){
+								lastCenterDist = tempCentDist;
+								centerTargets = i;
+							}
+						}
+				
+						//Did we find a target? Record center value. 
+						if (centerTargets >= 0){
+							lVisionTarget = IMG_WIDTH/2 - matchTargets[2][centerTargets];
+							lTargetFound = true;
+						}
+
+						System.out.println("Center Target Right: " + matchTargets[0][centerTargets]);
+						System.out.println("Center Target Left: " + matchTargets[1][centerTargets]);
+						System.out.println("Center Target Middle: " + matchTargets[2][centerTargets]);
+						
 
 					}else{
-						System.out.println("No Contours");
+						lTargetFound = false;
+						//System.out.println("No Contours");
+					}
+					
+					System.out.println("Is target found:" + lTargetFound);
+					//Allow main thread to access center
+					synchronized(IMG_LOCK){
+						targetFound = lTargetFound;
+						visionTarget = lVisionTarget;
 					}
 					//Output to smartdash board - It may not like having this inside the thread
 					hsv_threashold_source.putFrame(pipeline.hsvThresholdOutput());
@@ -102,14 +172,20 @@ public class Camera{
 		visionThread.start();
 	}
 	
-	private Rect[] getResult() {
+	private double getImageResults() {
 		//Get results from vision thread -- This will change. 
-		synchronized(visionTargets){
-			return visionTargets;
+		synchronized(IMG_LOCK){
+			return visionTarget;
 		}
 	}
 	
-
+	private Boolean isImageFound() {
+		//Get results from vision thread -- This will change. 
+		synchronized(IMG_LOCK){
+			return targetFound;
+		}
+	}
+	
 
 
 }
