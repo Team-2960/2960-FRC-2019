@@ -15,7 +15,7 @@ public class OI {
     }
 
     public void driverControl(Joystick driver_control){
-        drive.setSpeed(driver_control.getRawAxis(5), driver_control.getRawAxis(1));
+        drive.setSpeed(-driver_control.getRawAxis(1), driver_control.getRawAxis(5));
     }
     
     public void operatorControl(Joystick operator_control){
