@@ -8,7 +8,9 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Rect;
+import org.opencv.core.RotatedRect;
 import org.opencv.imgproc.Imgproc;
 import java.util.concurrent.locks.Lock;
 
@@ -50,7 +52,6 @@ public class Camera{
 			Mat cam_frame = new Mat();
 
 			while(!Thread.interrupted()){
-				System.out.println("Getting image");
 				long result = cam_sink.grabFrameNoTimeout(cam_frame);
 				
 				//Check whether we received an image
@@ -70,6 +71,10 @@ public class Camera{
 						}
 						double center = ((visionTargets[0].x + visionTargets[0].width/2) + (visionTargets[1].x + visionTargets[1].width/2)) / 2;
 						System.out.println("Center: " + center);
+						//MatOfPoint2f testMAT = new MatOfPoint2f(pipeline.filterContoursOutput().get(1));
+					//RotatedRect rectest = Imgproc.minAreaRect(testMAT);
+					//	System.out.println("Target Angle" + rectest.angle);
+
 					}else{
 						System.out.println("No Contours");
 					}
