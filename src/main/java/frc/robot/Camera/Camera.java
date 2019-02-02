@@ -17,7 +17,7 @@ public class Camera{
 	private static final int IMG_WIDTH = 320;
 	private static final int IMG_HEIGHT = 240;
 	
-	private Rect visionTargets[] = new Rect[2]; 
+	private Rect visionTargets[] = new RotatedRect[2]; 
 
 	private UsbCamera camera;
 	private CvSink cam_sink;
@@ -25,8 +25,6 @@ public class Camera{
 
 	private CvSource hsv_threashold_source;
 	private CvSource erode_source;
-	
-	
 
 	public Camera(int cameraPort){  
 		//Setup camera
@@ -68,6 +66,7 @@ public class Camera{
 							//Is there a second contour?
 							if (pipeline.filterContoursOutput().size() > 1)
 								visionTargets[1] = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));
+
 						}
 					}else{
 						System.out.println("No Contours");
