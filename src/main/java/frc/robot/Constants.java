@@ -24,6 +24,6 @@ public class Constants {
     public static double HUEmax = 110.96897432790306;
     public static double Saturationmin = 22.93165467625899;
     public static double Saturationmax = 255;
-    public static double HSValuemin = 32.560428437342786;
-    public static double HSValuemax = 110.96897432790306;
+    public static double HSValuemin = 220;
+    public static double HSValuemax = 254.54;
 }

@@ -135,12 +135,20 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void teleopPeriodic() {
+   
+    cameraConfig();
+    oi.driverControl(driver);
+    oi.operatorControl(operator);
+    
+  }
+
+  public void cameraConfig(){
     Constants.HUEmin = NetworkTable.getTable("SmartDashboard").getDouble("HUE min", 0);
     Constants.HUEmax= NetworkTable.getTable("SmartDashboard").getDouble("HUE max", 0);
-    Constants.Saturationmin = NetworkTable.getTable("SmartDashboard").getDouble("Saturation_min", 0);
-    Constants.Saturationmax = NetworkTable.getTable("SmartDashboard").getDouble("Saturation_max", 0);
-    Constants.HSValuemin = NetworkTable.getTable("SmartDashboard").getDouble("HSValue_min", 0);
-    Constants.HSValuemax = NetworkTable.getTable("SmartDashboard").getDouble("HSValue_max", 0);
+    Constants.Saturationmin = NetworkTable.getTable("SmartDashboard").getDouble("Saturation min", 0);
+    Constants.Saturationmax = NetworkTable.getTable("SmartDashboard").getDouble("Saturation max", 0);
+    Constants.HSValuemin = NetworkTable.getTable("SmartDashboard").getDouble("HSValue min", 0);
+    Constants.HSValuemax = NetworkTable.getTable("SmartDashboard").getDouble("HSValue max", 0);
     SmartDashboard.putNumber("HUE min", Constants.HUEmin);
     SmartDashboard.putNumber("HUE max", Constants.HUEmax);
     SmartDashboard.putNumber("HSValue min", Constants.HSValuemin);
@@ -148,11 +156,7 @@ public class Robot extends IterativeRobot {
     SmartDashboard.putNumber("Saturationmax", Constants.Saturationmax);
     SmartDashboard.putNumber("Saturation min", Constants.Saturationmin);
 
-    oi.driverControl(driver);
-    oi.operatorControl(operator);
-    
   }
-
   /**
    * This function is called periodically during test mode.
    */
