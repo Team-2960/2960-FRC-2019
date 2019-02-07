@@ -7,17 +7,21 @@ import frc.robot.Motors.Arm;
 import frc.robot.Motors.Climb;
 import frc.robot.Sensors.Gyro;
 
+
 public class OI {
     private Drive drive = Drive.getInstance();
     private Intake intake = Intake.getInstance();
     private Climb climb = Climb.getInstance();
+    private double error = 5;
     public OI(){
 
     }
 
+
+    
     public void driverControl(Joystick driver_control){
         drive.setSpeed(-driver_control.getRawAxis(1), driver_control.getRawAxis(5));
-        Gyro.AngleTurn(driver_control.getRawButton(12));
+        
     }
     
     public void operatorControl(Joystick operator_control){

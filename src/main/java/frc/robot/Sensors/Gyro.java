@@ -19,14 +19,23 @@ import frc.robot.Motors.Drive;
 public class Gyro{
     double error = 5;
     private AnalogGyro gyros = new AnalogGyro(2);
-    
+    /*
     public void AngleTurn(){
         if(gyros.getAngle() < 90 + error){
-            
+            Drive.setSpeed(1, -1);
         }
+        else if(gyros.getAngle() > 90 + error){
+            Drive.setSpeed(-1, 1);
+        }
+        else{
+            Drive.setSpeed(0, 0);
+        }
+   
     }
-
-
-
-
+    */
 }
+
+
+
+
+
