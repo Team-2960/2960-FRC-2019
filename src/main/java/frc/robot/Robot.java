@@ -8,6 +8,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -47,6 +48,7 @@ public class Robot extends IterativeRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private OI oi;
   private Camera hatchCamera;
+  private AnalogGyro gyro = new AnalogGyro(1);
 
   /**
    * This function is run when the robot is first started up and should be
@@ -65,7 +67,7 @@ public class Robot extends IterativeRobot {
     SmartDashboard.putNumber("Saturation max", Constants.Saturationmax);
     SmartDashboard.putNumber("HSValue min", Constants.HSValuemin);
     SmartDashboard.putNumber("HSValue max", Constants.HSValuemax);
-
+    SmartDashboard.putNumber("gyroOne", gyro.getAngle());
 
 /* 
     webcam_thread = new VisionThread(webcam, new GripPipeline(), pipeline-> {
@@ -139,7 +141,7 @@ public class Robot extends IterativeRobot {
     cameraConfig();
     oi.driverControl(driver);
     oi.operatorControl(operator);
-    
+    SmartDashboard.putNumber("gyroOne", gyro.getAngle());
   }
 
   public void cameraConfig(){

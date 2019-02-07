@@ -10,6 +10,7 @@ public class OI {
     private Drive drive = Drive.getInstance();
     private Intake intake = Intake.getInstance();
     private Climb climb = Climb.getInstance();
+    
     public OI(){
 
     }
