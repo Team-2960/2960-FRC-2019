@@ -18,7 +18,7 @@ public class Drive {
     private TalonSRX mRightFollower2;
     private TalonSRX mLeftMaster;
     private TalonSRX mLeftFollower1;
-    private TalonSRX mLeftFollower2 ;
+    private TalonSRX mLeftFollower2;
 
     private static Drive m_Instance;
     
