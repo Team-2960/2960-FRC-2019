@@ -41,7 +41,7 @@ public class OI {
         if (driver_control.getRawButton(5)){
             Gyro();
         }
-        else{}        }
+        else{}
     }
     
     public void operatorControl(Joystick operator_control){
