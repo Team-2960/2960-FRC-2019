@@ -13,6 +13,7 @@ public class OI {
     private Drive drive = Drive.getInstance();
     private Intake intake = Intake.getInstance();
     private Climb climb = Climb.getInstance();
+    private Arm arm = Arm.getInstance();
 
     //gyro
     private AnalogGyro gyro1 = new AnalogGyro(1);
@@ -67,14 +68,24 @@ public class OI {
         }  
 
         //Climber control
-        if(operator_control.getRawButton(2)){
+        if(operator_control.getRawButton(4)){ //up
             climb.SetSpeed(1, 1);
         }
-        else if(operator_control.getRawButton(3)){
+        else if(operator_control.getRawButton(5)){ //down 
             climb.SetSpeed(-1, -1);
         }   
         else{
             climb.SetSpeed(0, 0);
+        }
+        //arm control
+        if(operator_control.getRawButton(5)){  //up
+            arm.SetSpeed(1, 1); 
+        }
+        else if(operator_control.getRawButton(6)){  //down
+            arm.SetSpeed(-1, -1);
+        }
+        else{
+            arm.SetSpeed(0, 0);
         }
     }
 }

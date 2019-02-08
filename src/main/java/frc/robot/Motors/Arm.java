@@ -17,11 +17,18 @@ import frc.robot.Constants;
 public class Arm{
 
     //hello
-    private CANSparkMax Arm1 = new CANSparkMax(Constants.ArmID1, MotorType.kBrushed);
-    private CANSparkMax Arm2 = new CANSparkMax(Constants.ArmID2, MotorType.kBrushed);
+    private CANSparkMax RTArm;
+    private CANSparkMax LTArm;
 
     private static Arm m_Instance;
 
+    public void setupTalon(){
+        RTArm = new CANSparkMax(Constants.ArmID1, MotorType.kBrushless);
+        LTArm = new CANSparkMax(Constants.ArmID2, MotorType.kBrushless);
+    }
+    private Arm(){
+        setupTalon();
+    }
     public static Arm getInstance(){
         if (m_Instance == null){
             m_Instance = new Arm();
@@ -29,9 +36,9 @@ public class Arm{
         return m_Instance;
     }
 
-    public void SetSpeed(double arm){
-        Arm1.set(arm);
-        Arm2.set(arm);
+    public void SetSpeed(double right, double left){
+        RTArm.set(right);
+        LTArm.set(left);
     }
 
 
