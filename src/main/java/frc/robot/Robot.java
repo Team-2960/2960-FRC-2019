@@ -21,11 +21,10 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
 import frc.robot.Camera.Camera;
 import frc.robot.Camera.GripPipeline;
 import com.ctre.phoenix.motorcontrol.can.*;
-
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
-
+import edu.wpi.first.wpilibj.AnalogGyro;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
@@ -65,7 +64,6 @@ public class Robot extends IterativeRobot {
     SmartDashboard.putNumber("Saturation max", Constants.Saturationmax);
     SmartDashboard.putNumber("HSValue min", Constants.HSValuemin);
     SmartDashboard.putNumber("HSValue max", Constants.HSValuemax);
-
 
 /* 
     webcam_thread = new VisionThread(webcam, new GripPipeline(), pipeline-> {
@@ -135,14 +133,15 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void teleopPeriodic() {
-   
     cameraConfig();
     oi.driverControl(driver);
     oi.operatorControl(operator);
     
+    
   }
 
   public void cameraConfig(){
+    
     Constants.HUEmin = NetworkTable.getTable("SmartDashboard").getDouble("HUE min", 0);
     Constants.HUEmax= NetworkTable.getTable("SmartDashboard").getDouble("HUE max", 0);
     Constants.Saturationmin = NetworkTable.getTable("SmartDashboard").getDouble("Saturation min", 0);

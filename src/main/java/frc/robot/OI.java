@@ -5,22 +5,43 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Motors.Intake;
 import frc.robot.Motors.Arm;
 import frc.robot.Motors.Climb;
-import frc.robot.Sensors.Gyro;
+import edu.wpi.first.wpilibj.AnalogGyro;
+
 
 
 public class OI {
     private Drive drive = Drive.getInstance();
     private Intake intake = Intake.getInstance();
     private Climb climb = Climb.getInstance();
+
+    //gyro
+    private AnalogGyro gyro1 = new AnalogGyro(1);
+    private double Angle = gyro1.getAngle();
+    private int error = 5;
     public OI(){
+    }
+    //gryo goto angle
+    public void Gyro(){
+        if(Angle < 180 + error){
+            drive.Gyro(0.5, 0.5);
+        }
+        else if(Angle > 180 + error){
+            drive.Gyro(0.5, -0.5);
+        }
+        else{
+            drive.Gyro(0, 0);
+        }
 
     }
 
 
-    
     public void driverControl(Joystick driver_control){
         drive.setSpeed(-driver_control.getRawAxis(1), driver_control.getRawAxis(5));
-        Gyro.turn(driverdriver_control.getRawAxis(5));
+       //gyro control
+        if (driver_control.getRawButton(5)){
+            Gyro();
+        }
+        else{}        }
     }
     
     public void operatorControl(Joystick operator_control){

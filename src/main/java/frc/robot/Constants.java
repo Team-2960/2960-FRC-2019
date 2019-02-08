@@ -7,7 +7,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Constants {
 
-//talons
+    //talons
     public static int mRightMasterId = 1;
     public static int mRightFollowerId1 = 2;
     public static int mRightFollowerId2 = 3;
@@ -20,10 +20,13 @@ public class Constants {
     public static int wristIntakeID = 10;
     public static int ArmID1 = 11;
     public static int ArmID2 = 12;
+    //camera values
     public static double HUEmin = 32.560428437342786;
     public static double HUEmax = 110.96897432790306;
     public static double Saturationmin = 22.93165467625899;
     public static double Saturationmax = 255;
     public static double HSValuemin = 220;
     public static double HSValuemax = 254.54;
+    //pid values
+    
 }

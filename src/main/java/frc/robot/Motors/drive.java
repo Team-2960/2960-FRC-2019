@@ -53,6 +53,10 @@ public class Drive {
         mLeftMaster.set(ControlMode.PercentOutput, left);
         mRightMaster.set(ControlMode.PercentOutput, right);
     }
+    public void Gyro(double right, double left){
+        mLeftMaster.set(ControlMode.PercentOutput, left);
+        mRightMaster.set(ControlMode.PercentOutput, right);      
+    }
     public void update(){
 
     }
