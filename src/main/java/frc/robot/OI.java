@@ -77,6 +77,7 @@ public class OI {
         else{
             climb.SetSpeed(0, 0);
         }
+        
         //arm control
         if(operator_control.getRawButton(5)){  //up
             arm.SetSpeed(1, 1); 

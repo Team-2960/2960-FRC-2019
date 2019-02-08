@@ -11,12 +11,16 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 
 public class Intake{
-    private TalonSRX Ball = new TalonSRX(Constants.ballIntakeID);
-    private TalonSRX Wrist = new TalonSRX(Constants.wristIntakeID);
+    private TalonSRX Ball ;
+    private TalonSRX Wrist;
     private static Intake m_Instance;
 
+    public void setupTalon(){
+        Ball = new TalonSRX(Constants.ballIntakeID);
+        Wrist = new TalonSRX(Constants.wristIntakeID);
+    }
     private Intake(){
-
+        setupTalon();
     }
     public void SetSpeedBall(double ball){
         Ball.set(ControlMode.PercentOutput, ball);
