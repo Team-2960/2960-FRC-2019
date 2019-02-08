@@ -30,6 +30,7 @@ public class OI {
         }
         else{
             drive.Gyro(0, 0);
+            gyro1.reset();
         }
 
     }
