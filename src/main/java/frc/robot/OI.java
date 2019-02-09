@@ -40,7 +40,7 @@ public class OI {
         if(driver_control.getRawButton(5)){
             intake.setHatch(false);
         }
-        else if(driver_control.getRawButton(6){
+        else if(driver_control.getRawButton(6)){
             intake.setHatch(true);
         }
     }
