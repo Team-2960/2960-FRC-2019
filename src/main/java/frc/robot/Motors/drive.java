@@ -13,6 +13,10 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import java.lang.Math;
+import frc.robot.Motors.Drive;
+import frc.robot.Camera.Camera;
+
+
 
 public class Drive {
     
@@ -30,7 +34,8 @@ public class Drive {
     private double gyroAngle;
     private Timer tGyro = new Timer();
     private boolean sTimer = false;
-   
+    private Camera hatchCamera;
+    private boolean switch_GotoTarget = false;
 
      private void setupTalon(){
         //Initialize Talons
@@ -56,6 +61,7 @@ public class Drive {
     }
 
     private Drive() {
+        hatchCamera = new Camera(0);
         setupTalon();
     }
 
@@ -104,7 +110,7 @@ public class Drive {
         }
     
         return atAngle;
-}
+    }
     public double returnAngle(){
       return Gyro1.getAngle();
     }
@@ -126,15 +132,71 @@ public class Drive {
         gyroAngle = angle;
         sTimer = true;
     }
+public void switchTarget() {
+    switch_GotoTarget = true;
+}
 
+
+
+
+    public boolean gotoTarget(){
+        double error = Math.abs(hatchCamera.getImageResults());
+        boolean atTarget = false;
+        int dirc = 1;
+        if(hatchCamera.getImageResults() > 0) dirc = -1;
+        System.out.println(hatchCamera.getImageResults());
+        
+        if(error > 30){
+            setSpeed(.6 * dirc, .6 * dirc);
+        }
+        else if(error > 20){
+            setSpeed(0.5 * dirc, 0.5 * dirc);
+        }
+        else if(error > 15){
+            setSpeed(0.4 * dirc, 0.4 * dirc);
+        }
+        else if(error > 10){
+            setSpeed(0.3 * dirc, 0.3 * dirc);
+        }
+        else if(error > tolerance){
+            setSpeed(0.2 * dirc, 0.2 * dirc);
+            
+        }
+        else{
+            
+            setSpeed(0, 0);
+             if(sTimer){
+                tGyro.reset();
+                tGyro.start();
+                sTimer = false; 
+           }
+          // atTarget = true;
+        }
+        
+        if(hatchCamera.getImageResults() < tolerance && hatchCamera.getImageResults() > tolerance && tGyro.get() > 0.1){
+            atTarget = true;
+            tGyro.stop();
+        } 
+    
+        return atTarget;
+    }
     public void update(){
         if(switch_GotoAngle){
-            boolean Done = false; 
+            boolean aDone = false; 
         
-            Done = gotoAngle(gyroAngle);
+            aDone = gotoAngle(gyroAngle);
         
-            if(Done){   
+            if(aDone){   
                 switch_GotoAngle = false;
+            }    
+        }
+        if(switch_GotoTarget) {
+            boolean tDone = false; 
+        
+            tDone = gotoTarget();
+        
+            if(tDone){   
+                switch_GotoTarget = false;
             }
         }
     }

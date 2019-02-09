@@ -50,7 +50,7 @@ public class Robot extends IterativeRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private OI oi;
-  private Camera hatchCamera;
+
   public Ultrasonic Ultrasonic1 = new Ultrasonic(0, 1);
   public Ultrasonic Ultrasonic2 = new Ultrasonic(8, 9);
   private Drive drive = Drive.getInstance();
@@ -61,7 +61,6 @@ public class Robot extends IterativeRobot {
   @Override
   public void robotInit() {
     oi = new OI();
-    hatchCamera = new Camera(0);
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);

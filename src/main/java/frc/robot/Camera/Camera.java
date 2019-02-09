@@ -146,9 +146,9 @@ public class Camera{
 							lTargetFound = true;
 						}
 
-						/* System.out.println("Center Target Right: " + matchTargets[0][centerTargets]);
+						System.out.println("Center Target Right: " + matchTargets[0][centerTargets]);
 						System.out.println("Center Target Left: " + matchTargets[1][centerTargets]);
-						System.out.println("Center Target Middle: " + matchTargets[2][centerTargets]); */
+						System.out.println("Center Target Middle: " + matchTargets[2][centerTargets]); 
 						
 
 					}else{
@@ -172,14 +172,14 @@ public class Camera{
 		visionThread.start();
 	}
 	
-	private double getImageResults() {
+	public double getImageResults() {
 		//Get results from vision thread -- This will change. 
 		synchronized(IMG_LOCK){
 			return visionTarget;
 		}
 	}
 	
-	private Boolean isImageFound() {
+	public Boolean isImageFound() {
 		//Get results from vision thread -- This will change. 
 		synchronized(IMG_LOCK){
 			return targetFound;

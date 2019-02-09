@@ -26,9 +26,10 @@ public class OI {
     public void driverControl(Joystick driver_control){
        switch_angle = drive.switch_GotoAngle;
         if(driver_control.getRawButton(1)){
-            drive.Gyro1.reset();
-            drive.setAngle(90);
+          //  drive.Gyro1.reset();
+         //   drive.setAngle(90);
             switch_angle = true;
+            drive.switchTarget();
         }
         if(!switch_angle){
             drive.setSpeed(-driver_control.getRawAxis(1), driver_control.getRawAxis(5));
