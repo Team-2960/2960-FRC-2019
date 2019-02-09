@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.OI;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import frc.robot.Motors.Drive;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
@@ -28,6 +29,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 
 /**
@@ -46,7 +48,8 @@ public class Robot extends IterativeRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private OI oi;
   private Camera hatchCamera;
-
+  public Ultrasonic Ultrasonic1 = new Ultrasonic(0, 1);
+  public Ultrasonic Ultrasonic2 = new Ultrasonic(8, 9);
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -58,13 +61,18 @@ public class Robot extends IterativeRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    
     SmartDashboard.putNumber("HUE min", Constants.HUEmin);
     SmartDashboard.putNumber("HUE max", Constants.HUEmax);
     SmartDashboard.putNumber("Saturation min", Constants.Saturationmin);
     SmartDashboard.putNumber("Saturation max", Constants.Saturationmax);
     SmartDashboard.putNumber("HSValue min", Constants.HSValuemin);
     SmartDashboard.putNumber("HSValue max", Constants.HSValuemax);
+    
+    SmartDashboard.putNumber("ultrasonic1", Ultrasonic1.getRangeInches());
+    SmartDashboard.putNumber("ultrasonic2", Ultrasonic2.getRangeInches());
 
+    SmartDashboard.putNumber("gyro3", oi.Gyro1.getAngle());
 /* 
     webcam_thread = new VisionThread(webcam, new GripPipeline(), pipeline-> {
         SmartDashboard.putNumber("webcam boxes", pipeline.filterContoursOutput().size());
@@ -134,13 +142,14 @@ public class Robot extends IterativeRobot {
   @Override
   public void teleopPeriodic() {
     cameraConfig();
-    oi.driverControl(driver);
-    oi.operatorControl(operator);
+    oi.driverControl(driver); // driver control 
+    oi.operatorControl(operator); // operator control
+   // oi.Gyro(driver);
     
     
   }
 
-  public void cameraConfig(){
+  public void cameraConfig(){  //config camear value in smardashboard
     
     Constants.HUEmin = NetworkTable.getTable("SmartDashboard").getDouble("HUE min", 0);
     Constants.HUEmax= NetworkTable.getTable("SmartDashboard").getDouble("HUE max", 0);
@@ -155,6 +164,11 @@ public class Robot extends IterativeRobot {
     SmartDashboard.putNumber("Saturationmax", Constants.Saturationmax);
     SmartDashboard.putNumber("Saturation min", Constants.Saturationmin);
 
+    SmartDashboard.putNumber("ultrasonic1", Ultrasonic1.getRangeInches());
+    SmartDashboard.putNumber("ultrasonic2", Ultrasonic2.getRangeInches());
+
+
+    SmartDashboard.putNumber("gyro3", oi.Gyro1.getAngle());
   }
   /**
    * This function is called periodically during test mode.

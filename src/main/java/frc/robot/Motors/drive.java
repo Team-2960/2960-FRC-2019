@@ -9,6 +9,7 @@ import com.ctre.phoenix.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class Drive {
     
@@ -22,6 +23,8 @@ public class Drive {
 
     private static Drive m_Instance;
     
+   
+
      private void setupTalon(){
         //Initialize Talons
         mRightMaster = new TalonSRX(Constants.mRightMasterId);
@@ -57,6 +60,12 @@ public class Drive {
         mLeftMaster.set(ControlMode.PercentOutput, left);
         mRightMaster.set(ControlMode.PercentOutput, right);      
     }
+
+    public void ultrasonic(){
+        
+
+    }
+
     public void update(){
 
     }
