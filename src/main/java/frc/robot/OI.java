@@ -2,16 +2,9 @@ package frc.robot;
 
 import frc.robot.Motors.Drive;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Motors.Intake;
 import frc.robot.Motors.Arm;
 import frc.robot.Motors.Climb;
-
-import java.sql.Time;
-
-import edu.wpi.first.wpilibj.AnalogGyro;
-
-
 
 public class OI {
     private Drive drive = Drive.getInstance();
@@ -36,37 +29,54 @@ public class OI {
         }
        
         //Ball intake contol 
-       if(driver_control.getRawAxis(2) > 0.1){
+        if(driver_control.getRawAxis(2) > 0.1){
            intake.SetSpeedBall(1);
-       }
-       if(driver_control.getRawAxis(3) > 0.1){
+        }
+        if(driver_control.getRawAxis(3) > 0.1){
            intake.SetSpeedBall(-1);
         }
 
+        //hatch control
         if(driver_control.getRawButton(5)){
-            intake.SetHatch(false);
+            intake.setHatch(false);
         }
-        else if(driver_control.getRawButton(6)){
-            intake.SetHatch(true);
+        else if(driver_control.getRawButton(6){
+            intake.setHatch(true);
         }
     }
 
     public void operatorControl(Joystick operator_control){
 
-            //wrist control
-            intake.SetSpeedWrist(operator_control.getRawAxis(5));
+        //wrist control
+        intake.SetSpeedWrist(operator_control.getRawAxis(5));
 
         //Climber control
         if(operator_control.getRawAxis(2) > 0.1 && operator_control.getRawAxis(3) > 0.1) { //up
-            climb.SetSpeed(1, 1);
+            climb.SetSpeed(0.5, 0.5);
         }
         else if(operator_control.getRawButtonPressed(5) && operator_control.getRawButtonPressed(6)){ //down 
-            climb.SetSpeed(-1, -1);
+            climb.SetSpeed(-0.5, -0.5);
         }   
         else{
             climb.SetSpeed(0, 0);
         }
-        
+
+        //clamper control
+        if(operator_control.getRawButton(2)){
+            climb.setClamp(true);
+        }
+        else if(operator_control.getRawButton(3)){
+            climb.setClamp(false);
+        }
+
+        //kicker
+        if(operator_control.getRawButton(1)){
+            climb.setKicker(true);
+        }
+        else{
+            climb.setKicker(false);
+        }
+
         //arm control
             arm.SetSpeed(operator_control.getRawAxis(1), operator_control.getRawAxis(1)); 
     }

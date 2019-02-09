@@ -13,26 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.OI;
-
-import javax.management.loading.PrivateMLet;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.wpilibj.Compressor;
 import frc.robot.Motors.Drive;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.vision.VisionRunner;
-import edu.wpi.first.wpilibj.vision.VisionThread;
-import frc.robot.Camera.Camera;
-import frc.robot.Camera.GripPipeline;
-import com.ctre.phoenix.motorcontrol.can.*;
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.AnalogGyro;
-import org.opencv.core.Mat;
-import org.opencv.core.Rect;
-import org.opencv.imgproc.Imgproc;
 import edu.wpi.first.wpilibj.Ultrasonic;
+import frc.robot.Motors.Intake;
 
 
 /**
@@ -50,10 +35,12 @@ public class Robot extends IterativeRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private OI oi;
+  private Compressor compressor = new Compressor(0);
 
   public Ultrasonic Ultrasonic1 = new Ultrasonic(0, 1);
   public Ultrasonic Ultrasonic2 = new Ultrasonic(8, 9);
   private Drive drive = Drive.getInstance();
+  private Intake intake = Intake.getInstance();
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -61,6 +48,10 @@ public class Robot extends IterativeRobot {
   @Override
   public void robotInit() {
     oi = new OI();
+
+    compressor.setClosedLoopControl(true);
+
+
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
@@ -75,27 +66,6 @@ public class Robot extends IterativeRobot {
     SmartDashboard.putNumber("ultrasonic1", Ultrasonic1.getRangeInches());
     SmartDashboard.putNumber("ultrasonic2", Ultrasonic2.getRangeInches());
 
-    SmartDashboard.putNumber("gyro4", drive.returnAngle());
-
-
-
-
-
-
-    /* 
-    webcam_thread = new VisionThread(webcam, new GripPipeline(), pipeline-> {
-        SmartDashboard.putNumber("webcam boxes", pipeline.filterContoursOutput().size());
-      if(!pipeline.filterContoursOutput().isEmpty()){
-        Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-        SmartDashboard.putNumber("webcan 2", r.x);
-        synchronized (IMG_lcok){
-          System.out.println("here");
-          CenterX = r.x + (r.width/2);
-        }
-      }
-    });
-    webcam_thread.start();
-*/
   }
 
   /**
@@ -157,6 +127,9 @@ public class Robot extends IterativeRobot {
    // oi.Gyro(driver);
    SmartDashboard.putNumber("gyro4", drive.returnAngle());
   
+    intake.print();
+
+
    SmartDashboard.putNumber("ultrasonic1", Ultrasonic1.getRangeInches());
    SmartDashboard.putNumber("ultrasonic2", Ultrasonic2.getRangeInches());
   }

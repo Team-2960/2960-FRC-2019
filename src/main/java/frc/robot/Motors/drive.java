@@ -1,19 +1,15 @@
 package frc.robot.Motors;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import java.lang.Math;
 import frc.robot.Motors.Drive;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import frc.robot.Camera.Camera;
 
 
@@ -46,11 +42,17 @@ public class Drive {
         mLeftFollower1 = new TalonSRX(Constants.mLeftFollowerId1);
         mLeftFollower2 = new TalonSRX(Constants.mLeftFollowerId2);
 
+
+        mLeftMaster.configFactoryDefault();
+        mLeftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 1);
+
         //Set follower motors
         mRightFollower1.follow(mRightMaster);
         mRightFollower2.follow(mRightMaster);
         mLeftFollower1.follow(mLeftMaster);
         mLeftFollower2.follow(mLeftMaster);
+
+        mLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
       }
       
     public static Drive getInstance(){
@@ -199,6 +201,11 @@ public void switchTarget() {
                 switch_GotoTarget = false;
             }
         }
+
+
+
+
+
     }
 }
 

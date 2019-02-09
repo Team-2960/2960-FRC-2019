@@ -1,10 +1,5 @@
 package frc.robot;
 
-import com.revrobotics.CANError;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 public class Constants {
 
     //talons
@@ -29,4 +24,12 @@ public class Constants {
     public static double HSValuemax = 254.54;
     //pid values
     
+    //Solenoids
+    public static int clamp1 = 0;
+    public static int clamp2 = 1;
+    public static int kicker1 = 2;
+    public static int kicker2 = 3;
+    public static int hatch1 = 4;
+    public static int hatch2 = 5;
+
 }
