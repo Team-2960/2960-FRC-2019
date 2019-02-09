@@ -21,15 +21,15 @@ public class OI {
     private boolean hSwitch;
 
     //gyro
-   /*  public AnalogGyro gyro1 = new AnalogGyro(10);
-    public double Angle = gyro1.getAngle(); */
+    public AnalogGyro gyro1 = new AnalogGyro(10);
+    public double Angle = gyro1.getAngle();
     private int error = 3;
     private Boolean switch1 = false;
     public AnalogGyro Gyro1 = new AnalogGyro(0);;
     public OI(){
     }
     //gryo goto angle fontion
-    /*public void Gyro(Joystick driver_control){
+    public void Gyro(Joystick driver_control){
                //gyro control
                if(driver_control.getRawButtonPressed(5)){
                    switch1 = true;
@@ -39,10 +39,10 @@ public class OI {
                }
             while(switch1){
                 if(Gyro1.getAngle() < 180 - error){
-                    drive.Gyro(0.7, 0.7);
+                    drive.Gyro(0.5, 0.5);
                 }
                 else if(Gyro1.getAngle() > 180 + error){
-                    drive.Gyro(-0.7, -0.7);
+                    drive.Gyro(-0.5, -0.5);
                 }
                 else{
                     Gyro1.reset();
@@ -50,7 +50,7 @@ public class OI {
                 }
             }
         }
-    */
+   
 
 
     
