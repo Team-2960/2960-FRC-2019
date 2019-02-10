@@ -6,6 +6,10 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import frc.robot.PID.wPIDoutput;
 
 public class Intake{
     private TalonSRX Ball ;
@@ -13,6 +17,8 @@ public class Intake{
     private Encoder eWrist;
     private static Intake m_Instance;
     private DoubleSolenoid hatch;
+    private PIDController wPidController;
+    private wPIDoutput WPIDoutput;
 
   //  private Encoder encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
 
@@ -20,23 +26,28 @@ public class Intake{
         Ball = new TalonSRX(Constants.ballIntakeID);
         Wrist = new TalonSRX(Constants.wristIntakeID);
         hatch = new DoubleSolenoid(Constants.hatch1, Constants.hatch2);
-        eWrist = new Encoder(2, 3);
+        eWrist = new Encoder(Constants.eWrist1, Constants.eWrist2);
         eWrist.setMaxPeriod(.1);
         eWrist.setMinRate(10);
         eWrist.setReverseDirection(true);
         eWrist.setSamplesToAverage(7);
+        eWrist.setPIDSourceType(PIDSourceType.kRate);
+        WPIDoutput = new wPIDoutput(this);
+        wPidController = new PIDController(Constants.wP, Constants.wI, Constants.wD, eWrist, WPIDoutput);
 
     }
     private Intake(){
         setupTalon();
     }
+
     public void SetSpeedBall(double ball){
         Ball.set(ControlMode.PercentOutput, ball);
     }
+
     public void SetSpeedWrist(double wrist){
         Wrist.set(ControlMode.PercentOutput, wrist);
-
     }
+
     public static Intake getInstance(){
         if (m_Instance == null) {
             m_Instance = new Intake();
