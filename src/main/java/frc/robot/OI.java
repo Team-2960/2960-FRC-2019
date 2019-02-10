@@ -48,8 +48,9 @@ public class OI {
     public void operatorControl(Joystick operator_control){
 
         //wrist control
-        intake.SetSpeedWrist(operator_control.getRawAxis(5));
-
+        intake.startWristPID(300);
+        //    intake.SetSpeedWrist(operator_control.getRawAxis(5));
+        
         //Climber control
         if(operator_control.getRawAxis(2) > 0.1 && operator_control.getRawAxis(3) > 0.1) { //up
             climb.SetSpeed(0.5, 0.5);

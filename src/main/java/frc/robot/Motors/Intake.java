@@ -34,7 +34,6 @@ public class Intake{
         eWrist.setPIDSourceType(PIDSourceType.kRate);
         WPIDoutput = new wPIDoutput(this);
         wPidController = new PIDController(Constants.wP, Constants.wI, Constants.wD, eWrist, WPIDoutput);
-
     }
     private Intake(){
         setupTalon();
@@ -72,9 +71,12 @@ public class Intake{
             hatch.set(DoubleSolenoid.Value.kReverse);
         }
     }
-
+    public void startWristPID(double Rate){
+        wPidController.enable();
+        wPidController.setSetpoint(Rate);
+    }
     
-
-
-
+    public void disableWristPID(){
+        wPidController.disable();
+    }
 } 
