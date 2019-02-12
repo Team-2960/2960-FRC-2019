@@ -48,18 +48,18 @@ public class OI {
     public void operatorControl(Joystick operator_control){
 
         //wrist control
-        intake.startWristPID(300);
+        intake.startWristPID(2500 *-1);
         //    intake.SetSpeedWrist(operator_control.getRawAxis(5));
         
         //Climber control
         if(operator_control.getRawAxis(2) > 0.1 && operator_control.getRawAxis(3) > 0.1) { //up
-            climb.SetSpeed(0.5, 0.5);
+            climb.SetSpeed(0.5);
         }
         else if(operator_control.getRawButtonPressed(5) && operator_control.getRawButtonPressed(6)){ //down 
-            climb.SetSpeed(-0.5, -0.5);
+            climb.SetSpeed(-0.5);
         }   
         else{
-            climb.SetSpeed(0, 0);
+            climb.SetSpeed(0);
         }
 
         //clamper control
@@ -79,6 +79,6 @@ public class OI {
         }
 
         //arm control
-            arm.SetSpeed(operator_control.getRawAxis(1), operator_control.getRawAxis(1)); 
+            arm.SetSpeed(operator_control.getRawAxis(1)); 
     }
 }

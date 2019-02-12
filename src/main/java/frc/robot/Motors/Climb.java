@@ -16,6 +16,9 @@ public class Climb{
         Climb1 = new TalonSRX(Constants.ClimbID1);
         Climb2 = new TalonSRX(Constants.ClimbID2);
 
+        Climb2.follow(Climb1);
+        Climb2.setInverted(true);
+
         sclamp = new DoubleSolenoid(Constants.clamp1, Constants.clamp2);
         kicker = new DoubleSolenoid(Constants.kicker1, Constants.kicker2);
     }
@@ -32,9 +35,8 @@ public class Climb{
         return m_Instance;
     }
 
-    public void SetSpeed(double climb1, double climb2){
-        Climb1.set(ControlMode.PercentOutput, climb1);
-        Climb2.set(ControlMode.PercentOutput, climb2);
+    public void SetSpeed(double speed){
+        Climb1.set(ControlMode.PercentOutput, speed);
     }
     
     public void setKicker(boolean kDirection){

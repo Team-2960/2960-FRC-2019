@@ -14,7 +14,7 @@ import frc.robot.PID.wPIDoutput;
 public class Intake{
     private TalonSRX Ball ;
     private TalonSRX Wrist;
-    private Encoder eWrist;
+    public Encoder eWrist;
     private static Intake m_Instance;
     private DoubleSolenoid hatch;
     private PIDController wPidController;
@@ -58,9 +58,9 @@ public class Intake{
         double distance =  eWrist.getRaw();
         double distance2 = eWrist.getDistance();
         double distance3 = eWrist.getRate();
-        SmartDashboard.putNumber("1", distance);
-        SmartDashboard.putNumber("2", distance2);
-        SmartDashboard.putNumber("3", distance3);
+        SmartDashboard.putNumber("raw", distance);
+        SmartDashboard.putNumber("distance", distance2);
+        SmartDashboard.putNumber("rate", distance3);
     }
 
     public void setHatch(boolean hDirection ){

@@ -43,14 +43,13 @@ public class Drive {
         mLeftFollower2 = new TalonSRX(Constants.mLeftFollowerId2);
 
 
-        mLeftMaster.configFactoryDefault();
-        mLeftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 1);
-
         //Set follower motors
         mRightFollower1.follow(mRightMaster);
         mRightFollower2.follow(mRightMaster);
         mLeftFollower1.follow(mLeftMaster);
         mLeftFollower2.follow(mLeftMaster);
+
+        mLeftMaster.setInverted(true);
 
         mLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
       }

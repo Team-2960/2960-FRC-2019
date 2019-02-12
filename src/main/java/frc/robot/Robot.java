@@ -63,6 +63,13 @@ public class Robot extends IterativeRobot {
     SmartDashboard.putNumber("HSValue min", Constants.HSValuemin);
     SmartDashboard.putNumber("HSValue max", Constants.HSValuemax);
     
+
+    SmartDashboard.putNumber("raw", 0);
+    SmartDashboard.putNumber("distance", 0);
+    SmartDashboard.putNumber("rate", 0);
+
+    intake.eWrist.reset();
+
     SmartDashboard.putNumber("ultrasonic1", Ultrasonic1.getRangeInches());
     SmartDashboard.putNumber("ultrasonic2", Ultrasonic2.getRangeInches());
 

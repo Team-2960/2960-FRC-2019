@@ -4,6 +4,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants;
+import frc.robot.PID.aPIDoutput;
+
 
 
 public class Arm{
@@ -17,6 +19,9 @@ public class Arm{
     public void setupTalon(){
         RTArm = new CANSparkMax(Constants.ArmID1, MotorType.kBrushless);
         LTArm = new CANSparkMax(Constants.ArmID2, MotorType.kBrushless);
+
+        LTArm.follow(RTArm);
+        LTArm.setInverted(true);
     }
     private Arm(){
         setupTalon();
@@ -28,10 +33,18 @@ public class Arm{
         return m_Instance;
     }
 
-    public void SetSpeed(double right, double left){
-        RTArm.set(right);
-        LTArm.set(left);
+    public void SetSpeed(double speed){
+        RTArm.set(speed);
     }
+
+    /* public void startArmPID(double Rate){
+        aPidController.enable();
+        aPidController.setSetpoint(Rate);
+    }
+    
+    public void disableWristPID(){
+        aPidController.disable();
+    } */
 
 
 }

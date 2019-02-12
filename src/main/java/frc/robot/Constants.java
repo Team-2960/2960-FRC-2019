@@ -25,9 +25,12 @@ public class Constants {
     public static double HSValuemax = 254.54;
   
     //pid values
-    public static double wP = 1;
-    public static double wI = 0;
-    public static double wD = 0;
+    public static double wP = .9;
+    public static double wI = -0.02;
+    public static double wD = .6;
+    public static double aP = .9;
+    public static double aI = -0.02;
+    public static double aD = .6;  
     
     //Solenoids
     public static int clamp1 = 0;
@@ -40,7 +43,4 @@ public class Constants {
     //Digit Input Output
     public static int eWrist1 = 2;
     public static int eWrist2 = 3;
-
-    
-
 }
