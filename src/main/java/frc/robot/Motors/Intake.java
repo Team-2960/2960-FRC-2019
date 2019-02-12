@@ -7,7 +7,6 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import frc.robot.PID.wPIDoutput;
 
