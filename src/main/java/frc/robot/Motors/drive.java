@@ -49,8 +49,8 @@ public class Drive {
         mLeftFollower1.follow(mLeftMaster);
         mLeftFollower2.follow(mLeftMaster);
 
-        mRightMaster.setInverted(true);
-
+        mLeftMaster.setInverted(true);
+        
         mLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
       }
       

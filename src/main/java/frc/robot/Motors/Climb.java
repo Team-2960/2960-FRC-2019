@@ -1,6 +1,7 @@
 package frc.robot.Motors;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -8,19 +9,19 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 public class Climb{
     private TalonSRX Climb1;
     private TalonSRX Climb2;
-    private DoubleSolenoid sclamp;
-    private DoubleSolenoid kicker;
+    private DoubleSolenoid sClamp;
+    private DoubleSolenoid sPusher;
     private static Climb m_Instance;
 
     public void setupTalon(){
         Climb1 = new TalonSRX(Constants.ClimbID1);
         Climb2 = new TalonSRX(Constants.ClimbID2);
-
         Climb2.follow(Climb1);
         Climb2.setInverted(true);
 
-        sclamp = new DoubleSolenoid(Constants.clamp1, Constants.clamp2);
-        kicker = new DoubleSolenoid(Constants.kicker1, Constants.kicker2);
+        sClamp = new DoubleSolenoid(Constants.clamp1, Constants.clamp2);
+        sPusher = new DoubleSolenoid(Constants.pusher1, Constants.pusher2);
+   
     }
 
     private Climb(){
@@ -39,21 +40,21 @@ public class Climb{
         Climb1.set(ControlMode.PercentOutput, speed);
     }
     
-    public void setKicker(boolean kDirection){
+    public void setPusher(boolean kDirection){
         if(kDirection){
-            kicker.set(DoubleSolenoid.Value.kForward);
+            sPusher.set(DoubleSolenoid.Value.kForward);
         }
         else{
-            kicker.set(DoubleSolenoid.Value.kReverse);
+            sPusher.set(DoubleSolenoid.Value.kReverse);
         }
     }
 
     public void setClamp(boolean cDirection){
         if(cDirection){
-            sclamp.set(DoubleSolenoid.Value.kForward);
+            sClamp.set(DoubleSolenoid.Value.kForward);
         }
         else{
-            sclamp.set(DoubleSolenoid.Value.kReverse);
+            sClamp.set(DoubleSolenoid.Value.kReverse);
         }
     }
 

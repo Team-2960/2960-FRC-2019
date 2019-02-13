@@ -10,7 +10,6 @@ import frc.robot.PID.aPIDoutput;
 
 public class Arm{
 
-    //hello
     private CANSparkMax RTArm;
     private CANSparkMax LTArm;
 
@@ -19,7 +18,7 @@ public class Arm{
     public void setupTalon(){
         RTArm = new CANSparkMax(Constants.ArmID1, MotorType.kBrushless);
         LTArm = new CANSparkMax(Constants.ArmID2, MotorType.kBrushless);
-
+   
         LTArm.follow(RTArm);
         LTArm.setInverted(true);
     }

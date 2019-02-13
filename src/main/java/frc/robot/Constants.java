@@ -35,8 +35,8 @@ public class Constants {
     //Solenoids
     public static int clamp1 = 0;
     public static int clamp2 = 1;
-    public static int kicker1 = 2;
-    public static int kicker2 = 3;
+    public static int pusher1 = 2;
+    public static int pusher2 = 3;
     public static int hatch1 = 4;
     public static int hatch2 = 5;
 

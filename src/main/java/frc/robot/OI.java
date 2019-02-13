@@ -11,7 +11,6 @@ public class OI {
     private Intake intake = Intake.getInstance();
     private Climb climb = Climb.getInstance();
     private Arm arm = Arm.getInstance();
-    private boolean hSwitch;
     private boolean switch_angle = false; 
     public OI(){}
 
@@ -25,7 +24,7 @@ public class OI {
             drive.switchTarget();
         }
         if(!switch_angle){
-            drive.setSpeed(-driver_control.getRawAxis(1), -driver_control.getRawAxis(5));
+            drive.setSpeed(driver_control.getRawAxis(1), driver_control.getRawAxis(5));
         }
        
         //Ball intake contol 
@@ -73,12 +72,12 @@ public class OI {
             climb.setClamp(false);
         }
 
-        //kicker
+        //sPucher
         if(operator_control.getRawButton(1)){
-            climb.setKicker(true);
+            climb.setPusher(true);
         }
         else{
-            climb.setKicker(false);
+            climb.setPusher(false);
         }
 
         //arm control
