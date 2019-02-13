@@ -23,7 +23,7 @@ public class Drive {
     private TalonSRX mLeftMaster;
     private TalonSRX mLeftFollower1;
     private TalonSRX mLeftFollower2;
-    public AnalogGyro Gyro1 = new AnalogGyro(0);
+   // public AnalogGyro Gyro1 = new AnalogGyro(0);
     private int tolerance = 2;
     private static Drive m_Instance;
     public boolean switch_GotoAngle = false;
@@ -49,7 +49,7 @@ public class Drive {
         mLeftFollower1.follow(mLeftMaster);
         mLeftFollower2.follow(mLeftMaster);
 
-        mLeftMaster.setInverted(true);
+        mRightMaster.setInverted(true);
 
         mLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
       }
@@ -71,14 +71,14 @@ public class Drive {
         mRightMaster.set(ControlMode.PercentOutput, right);
     }
 
-    public boolean gotoAngle(double angle){
-        double error = Math.abs(angle - Gyro1.getAngle());
-        boolean atAngle = false;
-        int dirc = 1;
-        if(angle - Gyro1.getAngle() < 0) dirc = -1;
+   // public boolean gotoAngle(double angle){
+        //double error = Math.abs(angle - Gyro1.getAngle());
+      //  boolean atAngle = false;
+       // int dirc = 1;
+        //if(angle - Gyro1.getAngle() < 0) dirc = -1;
 
         
-        if(error > 90){
+        /* if(error > 90){
             setSpeed(1 * dirc, 1 * dirc);
         }
         else if(error > 70){
@@ -103,9 +103,9 @@ public class Drive {
                 sTimer = false;
             }
             
-        }
+        } */
         
-        if(Gyro1.getAngle() < tolerance + angle && Gyro1.getAngle() > angle - tolerance && tGyro.get() > 0.1){
+/*         if(Gyro1.getAngle() < tolerance + angle && Gyro1.getAngle() > angle - tolerance && tGyro.get() > 0.1){
             atAngle = true;
             tGyro.stop();
         }
@@ -119,8 +119,8 @@ public class Drive {
     
 
     public void resetGyro(){
-        Gyro1.reset();
-    }
+        Gyro1.reset();  */
+   // } 
 
     public void ultrasonic(){
         
@@ -128,7 +128,7 @@ public class Drive {
     }
 
     public void setAngle(double angle){
-        Gyro1.reset();
+      //  Gyro1.reset();
         switch_GotoAngle = true;
         gyroAngle = angle;
         sTimer = true;
@@ -185,7 +185,7 @@ public void switchTarget() {
         if(switch_GotoAngle){
             boolean aDone = false; 
         
-            aDone = gotoAngle(gyroAngle);
+          //  aDone = gotoAngle(gyroAngle);
         
             if(aDone){   
                 switch_GotoAngle = false;

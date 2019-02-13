@@ -132,9 +132,9 @@ public class Robot extends IterativeRobot {
     oi.driverControl(driver); // driver control 
     oi.operatorControl(operator); // operator control
    // oi.Gyro(driver);
-   SmartDashboard.putNumber("gyro4", drive.returnAngle());
+   //SmartDashboard.putNumber("gyro4", drive.returnAngle());
   
-    intake.print();
+    //intake.print();
 
 
    SmartDashboard.putNumber("ultrasonic1", Ultrasonic1.getRangeInches());

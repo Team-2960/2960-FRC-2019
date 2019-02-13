@@ -43,7 +43,7 @@ public class Intake{
     }
 
     public void SetSpeedWrist(double wrist){
-        Wrist.set(ControlMode.PercentOutput, wrist);
+        Wrist.set(ControlMode.PercentOutput, -wrist);
     }
 
     public static Intake getInstance(){

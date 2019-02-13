@@ -25,15 +25,18 @@ public class OI {
             drive.switchTarget();
         }
         if(!switch_angle){
-            drive.setSpeed(-driver_control.getRawAxis(1), driver_control.getRawAxis(5));
+            drive.setSpeed(-driver_control.getRawAxis(1), -driver_control.getRawAxis(5));
         }
        
         //Ball intake contol 
         if(driver_control.getRawAxis(2) > 0.1){
            intake.SetSpeedBall(1);
         }
-        if(driver_control.getRawAxis(3) > 0.1){
+        else if(driver_control.getRawAxis(3) > 0.1){
            intake.SetSpeedBall(-1);
+        }
+        else{
+            intake.SetSpeedBall(0);  
         }
 
         //hatch control
@@ -48,15 +51,15 @@ public class OI {
     public void operatorControl(Joystick operator_control){
 
         //wrist control
-        intake.startWristPID(2500 *-1);
-        //    intake.SetSpeedWrist(operator_control.getRawAxis(5));
+       // intake.startWristPID(2500 *-1);
+            intake.SetSpeedWrist(operator_control.getRawAxis(5));
         
         //Climber control
         if(operator_control.getRawAxis(2) > 0.1 && operator_control.getRawAxis(3) > 0.1) { //up
-            climb.SetSpeed(0.5);
+            climb.SetSpeed(1);
         }
-        else if(operator_control.getRawButtonPressed(5) && operator_control.getRawButtonPressed(6)){ //down 
-            climb.SetSpeed(-0.5);
+        else if(operator_control.getRawButton(5) && operator_control.getRawButton(6)){ //down 
+            climb.SetSpeed(-1);
         }   
         else{
             climb.SetSpeed(0);
