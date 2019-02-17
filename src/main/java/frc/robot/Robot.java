@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.OI;
 import edu.wpi.first.wpilibj.Compressor;
+import frc.robot.Motors.Arm;
 import frc.robot.Motors.Drive;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -41,6 +42,7 @@ public class Robot extends IterativeRobot {
   public Ultrasonic Ultrasonic2 = new Ultrasonic(8, 9);
   private Drive drive = Drive.getInstance();
   private Intake intake = Intake.getInstance();
+  private Arm arm = Arm.getInstance();
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -64,15 +66,26 @@ public class Robot extends IterativeRobot {
     SmartDashboard.putNumber("HSValue max", Constants.HSValuemax);
     
 
-    SmartDashboard.putNumber("raw", 0);
-    SmartDashboard.putNumber("distance", 0);
-    SmartDashboard.putNumber("rate", 0);
+    SmartDashboard.putNumber("wrist distance", 0);
+    SmartDashboard.putNumber("wrist rate", 0);
+
+    SmartDashboard.putNumber("gyro rate", drive.Gyro1.getRate());
+  
 
     intake.eWrist.reset();
 
     SmartDashboard.putNumber("ultrasonic1", Ultrasonic1.getRangeInches());
     SmartDashboard.putNumber("ultrasonic2", Ultrasonic2.getRangeInches());
 
+    SmartDashboard.putNumber("ArmEncoder Distance", 0);
+    SmartDashboard.putNumber("ArmEncoder Rate", 0);
+
+
+
+
+
+    SmartDashboard.putNumber("joystick arm", 0);
+    
   }
 
   /**
@@ -132,10 +145,10 @@ public class Robot extends IterativeRobot {
     oi.driverControl(driver); // driver control 
     oi.operatorControl(operator); // operator control
    // oi.Gyro(driver);
-   //SmartDashboard.putNumber("gyro4", drive.returnAngle());
+   SmartDashboard.putNumber("gyro rate", drive.Gyro1.getRate());
   
-    //intake.print();
-
+    intake.print();
+    arm.print();
 
    SmartDashboard.putNumber("ultrasonic1", Ultrasonic1.getRangeInches());
    SmartDashboard.putNumber("ultrasonic2", Ultrasonic2.getRangeInches());

@@ -13,8 +13,8 @@ public class Constants {
     public static int ClimbID2 = 8;
     public static int ballIntakeID = 9;
     public static int wristIntakeID = 10;
-    public static int ArmID1 = 11;
-    public static int ArmID2 = 12;
+    public static int rArmID1 = 11;
+    public static int lArmID2 = 12;
 
     //camera values
     public static double HUEmin = 32.560428437342786;
@@ -28,19 +28,22 @@ public class Constants {
     public static double wP = .9;
     public static double wI = -0.02;
     public static double wD = .6;
-    public static double aP = .9;
-    public static double aI = -0.02;
-    public static double aD = .6;  
+
+    public static double aP = 0.00625;
+    public static double aI = 0;
+    public static double aD = 0;  
     
     //Solenoids
-    public static int clamp1 = 0;
-    public static int clamp2 = 1;
-    public static int pusher1 = 2;
-    public static int pusher2 = 3;
+    public static int clamp1 = 2;
+    public static int clamp2 = 3;
+    public static int pusher1 = 0;
+    public static int pusher2 = 1;
     public static int hatch1 = 4;
     public static int hatch2 = 5;
 
     //Digit Input Output
     public static int eWrist1 = 2;
     public static int eWrist2 = 3;
+    public static int eArm1 = 4;
+    public static int eArm2 = 5;
 }

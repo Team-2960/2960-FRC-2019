@@ -21,11 +21,17 @@ public class Intake{
 
   //  private Encoder encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
 
-    public void setupTalon(){
+    public void setup(){
         Ball = new TalonSRX(Constants.ballIntakeID);
         Wrist = new TalonSRX(Constants.wristIntakeID);
         hatch = new DoubleSolenoid(Constants.hatch1, Constants.hatch2);
         eWrist = new Encoder(Constants.eWrist1, Constants.eWrist2);
+       
+        setHatch(false);
+
+
+        Wrist.setInverted(false);
+       
         eWrist.setMaxPeriod(.1);
         eWrist.setMinRate(10);
         eWrist.setReverseDirection(true);
@@ -35,7 +41,7 @@ public class Intake{
         wPidController = new PIDController(Constants.wP, Constants.wI, Constants.wD, eWrist, WPIDoutput);
     }
     private Intake(){
-        setupTalon();
+        setup();
     }
 
     public void SetSpeedBall(double ball){
@@ -54,22 +60,22 @@ public class Intake{
     }
 
     public void print(){
-        double distance =  eWrist.getRaw();
         double distance2 = eWrist.getDistance();
         double distance3 = eWrist.getRate();
-        SmartDashboard.putNumber("raw", distance);
-        SmartDashboard.putNumber("distance", distance2);
-        SmartDashboard.putNumber("rate", distance3);
+
+        SmartDashboard.putNumber("wrist distance", distance2);
+        SmartDashboard.putNumber("wrist rate", distance3);
     }
 
     public void setHatch(boolean hDirection ){
         if(hDirection){
             hatch.set(DoubleSolenoid.Value.kForward);
         }
-        else if(hDirection){
+        else if(!hDirection){
             hatch.set(DoubleSolenoid.Value.kReverse);
         }
     }
+
     public void startWristPID(double Rate){
         wPidController.enable();
         wPidController.setSetpoint(Rate);

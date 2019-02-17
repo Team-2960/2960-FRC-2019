@@ -5,14 +5,10 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.Ultrasonic;
 import java.lang.Math;
 import frc.robot.Motors.Drive;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import frc.robot.Camera.Camera;
-
-
 
 public class Drive {
     
@@ -23,15 +19,17 @@ public class Drive {
     private TalonSRX mLeftMaster;
     private TalonSRX mLeftFollower1;
     private TalonSRX mLeftFollower2;
-   // public AnalogGyro Gyro1 = new AnalogGyro(0);
-    private int tolerance = 2;
+    public AnalogGyro Gyro1 = new AnalogGyro(0);
+    private int tolerance = 5;
     private static Drive m_Instance;
     public boolean switch_GotoAngle = false;
     private double gyroAngle;
     private Timer tGyro = new Timer();
-    private boolean sTimer = false;
+    private boolean sTimer = false; // switch timer
+    private Timer tTarget = new Timer();
+    private boolean sTarget = false;// switch target
     private Camera hatchCamera;
-    private boolean switch_GotoTarget = false;
+    public boolean switch_GotoTarget = false;
 
      private void setupTalon(){
         //Initialize Talons
@@ -50,9 +48,10 @@ public class Drive {
         mLeftFollower2.follow(mLeftMaster);
 
         mLeftMaster.setInverted(true);
-        
-        mLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-      }
+        mLeftFollower2.setInverted(true);
+        mLeftFollower1.setInverted(true);
+
+        }
       
     public static Drive getInstance(){
         if (m_Instance == null) {
@@ -137,46 +136,43 @@ public void switchTarget() {
     switch_GotoTarget = true;
 }
 
-
-
-
     public boolean gotoTarget(){
         double error = Math.abs(hatchCamera.getImageResults());
         boolean atTarget = false;
         int dirc = 1;
         if(hatchCamera.getImageResults() > 0) dirc = -1;
-        System.out.println(hatchCamera.getImageResults());
+        System.out.println("Distance from center: " + hatchCamera.getImageResults());
         
-        if(error > 30){
-            setSpeed(.6 * dirc, .6 * dirc);
+        if(error > tolerance){
+            setSpeed(0.18 * dirc, -0.18 * dirc);
         }
-        else if(error > 20){
-            setSpeed(0.5 * dirc, 0.5 * dirc);
+        /* else if(error > 20){
+            setSpeed(0.2 * dirc, -0.2 * dirc);
         }
         else if(error > 15){
-            setSpeed(0.4 * dirc, 0.4 * dirc);
+            setSpeed(0.2 * dirc, -0.2 * dirc);
         }
         else if(error > 10){
-            setSpeed(0.3 * dirc, 0.3 * dirc);
+            setSpeed(0.2 * dirc, -0.2 * dirc);
         }
         else if(error > tolerance){
-            setSpeed(0.2 * dirc, 0.2 * dirc);
+            setSpeed(0 * dirc, 0 * dirc);
             
-        }
+        } */
         else{
             
             setSpeed(0, 0);
-             if(sTimer){
-                tGyro.reset();
-                tGyro.start();
-                sTimer = false; 
+             if(sTarget){
+                tTarget.reset();
+                tTarget.start();
+                sTarget = false; 
            }
-          // atTarget = true;
+           atTarget = true;
         }
         
-        if(hatchCamera.getImageResults() < tolerance && hatchCamera.getImageResults() > tolerance && tGyro.get() > 0.1){
+        if(hatchCamera.getImageResults() < tolerance && hatchCamera.getImageResults() > tolerance && tTarget.get() > 0.1){
             atTarget = true;
-            tGyro.stop();
+            tTarget.stop();
         } 
     
         return atTarget;
@@ -200,11 +196,6 @@ public void switchTarget() {
                 switch_GotoTarget = false;
             }
         }
-
-
-
-
-
     }
 }
 
