@@ -91,9 +91,9 @@ public class OI {
             } 
             else if(operator_control.getRawButton(3)){
                 arm.disableArmPID();
-            } */
+            }
             if(operator_control.getPOV(0) == 0){
                 arm.ArmEncoderReset();
-            }
+            } */
     }
 }

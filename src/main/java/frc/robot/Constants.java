@@ -29,8 +29,8 @@ public class Constants {
     public static double wI = -0.02;
     public static double wD = .6;
 
-    public static double aP = 0.00625;
-    public static double aI = 0;
+    public static double aP = 0.005;
+    public static double aI = 0.00001;
     public static double aD = 0;  
     
     //Solenoids
