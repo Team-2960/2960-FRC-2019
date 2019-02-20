@@ -45,7 +45,7 @@ public class Intake{
     }
 
     public void SetSpeedBall(double ball){
-        Ball.set(ControlMode.PercentOutput, ball);
+        Ball.set(ControlMode.PercentOutput, ball * 0.75);
     }
 
     public void SetSpeedWrist(double wrist){

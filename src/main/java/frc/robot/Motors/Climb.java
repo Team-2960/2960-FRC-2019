@@ -1,7 +1,7 @@
 package frc.robot.Motors;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.InvertType;
+import edu.wpi.first.wpilibj.Timer;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -11,6 +11,12 @@ public class Climb{
     private TalonSRX lClimb;
     private DoubleSolenoid sClamp;
     private static Climb m_Instance;
+    private Arm arm;
+    private Timer timer = new Timer();
+    private Boolean AutoDepoly_Switch = false; 
+
+
+
 
     public void setupTalon(){
         rClimb = new TalonSRX(Constants.ClimbID1);
@@ -18,6 +24,9 @@ public class Climb{
         
         rClimb.follow(lClimb);
        // rClimb.setInverted(true);
+
+
+       arm = Arm.getInstance();
 
         sClamp = new DoubleSolenoid(Constants.clamp1, Constants.clamp2);
    
@@ -47,4 +56,37 @@ public class Climb{
         }
     }
 
+    public void Start_autoDepoly(){
+        AutoDepoly_Switch = true;
+    }
+    public  Boolean autoDepoly(){
+        Boolean AutoDepoly_Done = false;
+        timer.start();
+        if(timer.get() > 0) setClamp(false);
+        if(timer.get() > 0.2) SetSpeed(-0.5);
+        if(timer.get() > 0.7){
+            SetSpeed(0);
+            arm.SetSpeed(0.5);
+        }
+        if(timer.get() > 1){
+            arm.SetSpeed(0);
+            arm.setPusher(true);
+            AutoDepoly_Done = true;
+            timer.stop();
+        }
+
+        return AutoDepoly_Done;
+
+    }
+
+    /* public void update(){
+        if(AutoDepoly_Switch){
+            Boolean aDone;
+            aDone = autoDepoly();
+            if(aDone){
+                AutoDepoly_Switch = false;
+                timer.reset();
+            }
+        }
+    } */
 }

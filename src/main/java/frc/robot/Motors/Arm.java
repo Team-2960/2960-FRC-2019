@@ -49,8 +49,8 @@ public class Arm{
     }
 
     public void SetSpeed(double speed){
-        RTArm.set(-speed);
-        LTArm.set(speed);
+        RTArm.set(-speed * 0.75);
+        LTArm.set(speed * 0.75);
     }
     
     public void setPusher(boolean kDirection){

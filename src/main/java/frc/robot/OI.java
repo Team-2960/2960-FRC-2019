@@ -95,5 +95,7 @@ public class OI {
             if(operator_control.getPOV(0) == 0){
                 arm.ArmEncoderReset();
             } */
+        
+        if(operator_control.getRawButton(2)) climb.Start_autoDepoly();
     }
 }
