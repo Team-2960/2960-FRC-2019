@@ -5,6 +5,8 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 
+import frc.robot.Constants;
+
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Rect;
@@ -129,7 +131,7 @@ public class Camera{
 						//Find the closest pair to the center of the target
 						for(int i = 0; i <= matchCount; i++){
 							//Find the absolute distance (allows postive) betwen target and center
-							double tempCentDist = java.lang.Math.abs(matchTargets[2][i] - IMG_WIDTH/2);
+							double tempCentDist = java.lang.Math.abs(matchTargets[2][i] - IMG_WIDTH/2 + Constants.cameraoffset);
 							//Is this closer than the last pair?
 							if (tempCentDist < lastCenterDist){
 								lastCenterDist = tempCentDist;
@@ -139,12 +141,12 @@ public class Camera{
 				
 						//Did we find a target? Record center value. 
 						if (centerTargets >= 0){
-							lVisionTarget = IMG_WIDTH/2 - matchTargets[2][centerTargets];
+							lVisionTarget = IMG_WIDTH/2 + Constants.cameraoffset - matchTargets[2][centerTargets];
 							lTargetFound = true;
 						}
 
-						System.out.println("Center Target Right: " + matchTargets[0][centerTargets]);
-						System.out.println("Center Target Left: " + matchTargets[1][centerTargets]);
+						//System.out.println("Center Target Right: " + matchTargets[0][centerTargets]);
+						//System.out.println("Center Target Left: " + matchTargets[1][centerTargets]);
 						System.out.println("Center Target Middle: " + matchTargets[2][centerTargets]); 
 						
 
@@ -155,6 +157,7 @@ public class Camera{
 					
 					//System.out.println("Is target found:" + lTargetFound);
 					//Allow main thread to access center
+					System.out.println("Distance from center: " + lVisionTarget);
 					synchronized(IMG_LOCK){
 						targetFound = lTargetFound;
 						visionTarget = lVisionTarget;

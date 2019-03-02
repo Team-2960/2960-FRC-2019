@@ -29,9 +29,9 @@ public class Constants {
     public static double wI = -0.02;
     public static double wD = .6;
 
-    public static double aP = 0.005;
-    public static double aI = 0.00001;
-    public static double aD = 0;  
+    public static double aP = 0.004;
+    public static double aI = 0.0001;
+    public static double aD = 0.01;  
     
     //Solenoids
     public static int clamp1 = 2;
@@ -42,8 +42,10 @@ public class Constants {
     public static int hatch2 = 5;
 
     //Digit Input Output
-    public static int eWrist1 = 2;
-    public static int eWrist2 = 3;
-    public static int eArm1 = 4;
-    public static int eArm2 = 5;
+    public static int eWrist1 = 4;
+    public static int eWrist2 = 5;
+    public static int eArm1 = 2;
+    public static int eArm2 = 3;
+
+    public static int cameraoffset = -54;
 }

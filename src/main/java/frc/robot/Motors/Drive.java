@@ -20,7 +20,7 @@ public class Drive {
     private TalonSRX mLeftFollower1;
     private TalonSRX mLeftFollower2;
     public AnalogGyro Gyro1 = new AnalogGyro(0);
-    private int tolerance = 5;
+    private int tolerance = 20;
     private static Drive m_Instance;
     public boolean switch_GotoAngle = false;
     private double gyroAngle;
@@ -144,7 +144,7 @@ public void switchTarget() {
         System.out.println("Distance from center: " + hatchCamera.getImageResults());
         
         if(error > tolerance){
-            setSpeed(0.18 * dirc, -0.18 * dirc);
+            setSpeed(0.15 * dirc, -0.15 * dirc);
         }
         /* else if(error > 20){
             setSpeed(0.2 * dirc, -0.2 * dirc);

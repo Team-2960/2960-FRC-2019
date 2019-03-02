@@ -11,6 +11,7 @@ public class aPIDoutput implements PIDOutput{
 
     public void pidWrite(double speed){
         arm.SetSpeed(speed);
+        System.out.println("arm speed: " + speed);
     }
 }
 

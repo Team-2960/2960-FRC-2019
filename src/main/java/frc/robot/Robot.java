@@ -53,7 +53,6 @@ public class Robot extends IterativeRobot {
 
     compressor.setClosedLoopControl(true);
 
-
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
@@ -65,6 +64,9 @@ public class Robot extends IterativeRobot {
     SmartDashboard.putNumber("HSValue min", Constants.HSValuemin);
     SmartDashboard.putNumber("HSValue max", Constants.HSValuemax);
     
+    SmartDashboard.putNumber("Arm P", Constants.aP);
+    SmartDashboard.putNumber("Arm I", Constants.aI);
+    SmartDashboard.putNumber("Arm D", Constants.aD);
 
     SmartDashboard.putNumber("wrist distance", 0);
     SmartDashboard.putNumber("wrist rate", 0);
@@ -141,6 +143,7 @@ public class Robot extends IterativeRobot {
   @Override
   public void teleopPeriodic() {
     cameraConfig();
+    ArmPIDConfig();
     drive.update();
     oi.driverControl(driver); // driver control 
     oi.operatorControl(operator); // operator control
@@ -152,6 +155,12 @@ public class Robot extends IterativeRobot {
 
    SmartDashboard.putNumber("ultrasonic1", Ultrasonic1.getRangeInches());
    SmartDashboard.putNumber("ultrasonic2", Ultrasonic2.getRangeInches());
+  }
+
+  public void ArmPIDConfig(){
+    Constants.aP = NetworkTable.getTable("SmartDashboard").getDouble("Arm P", 0);
+    Constants.aI = NetworkTable.getTable("SmartDashboard").getDouble("Arm I", 0);
+    Constants.aD = NetworkTable.getTable("SmartDashboard").getDouble("Arm D", 0);
   }
 
   public void cameraConfig(){  //config camear value in smardashboard

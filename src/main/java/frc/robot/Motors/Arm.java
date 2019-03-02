@@ -28,15 +28,17 @@ public class Arm{
         sPusher = new DoubleSolenoid(Constants.pusher1, Constants.pusher2);
         setPusher(false);
 
-
         eArm.reset();
         eArm.setMaxPeriod(.1);
         eArm.setMinRate(10);
         eArm.setSamplesToAverage(7);
         eArm.setPIDSourceType(PIDSourceType.kDisplacement);
-        eArm.setDistancePerPulse(1024.0/360.0);
+        eArm.setDistancePerPulse(360.0/1024.0);
         APIDoutput = new aPIDoutput(this);
         aPidController = new PIDController(Constants.aP, Constants.aI, Constants.aD, eArm, APIDoutput);
+        aPidController.setOutputRange(-1, 0.25);
+        aPidController.setInputRange(-90, 0);
+        aPidController.disable();
     }
     private Arm(){
         setup();
@@ -49,8 +51,8 @@ public class Arm{
     }
 
     public void SetSpeed(double speed){
-        RTArm.set(-speed * 0.75);
-        LTArm.set(speed * 0.75);
+        RTArm.set(speed); //may have to change back for the comptation robot
+        LTArm.set(-speed);
     }
     
     public void setPusher(boolean kDirection){

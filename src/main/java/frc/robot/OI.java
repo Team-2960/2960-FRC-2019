@@ -2,6 +2,7 @@ package frc.robot;
 
 import frc.robot.Motors.Drive;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Motors.Intake;
 import frc.robot.Motors.Arm;
@@ -14,19 +15,46 @@ public class OI {
     private Arm arm = Arm.getInstance();
     private boolean switch_angle = false; 
     public OI(){}
+    private boolean DvSwitch = false;
 
 
     public void driverControl(Joystick driver_control){
        switch_angle = drive.switch_GotoTarget;
+       if(driver_control.getPOV(0) == 0){
+            drive.switch_GotoTarget = false;
+        }
         if(driver_control.getRawButton(1)){
           //  drive.Gyro1.reset();
          //   drive.setAngle(90);
             switch_angle = true;
-            drive.switchTarget();
-            
+            drive.switchTarget();  
+        }
+        if(driver_control.getRawButton(8)){DvSwitch = true;
+        } 
+        else if(driver_control.getRawButton(7)){
+            DvSwitch = false;
+            driver_control.setRumble(RumbleType.kLeftRumble, 0);
+            driver_control.setRumble(RumbleType.kRightRumble, 0);
         }
         if(!switch_angle){
             drive.setSpeed(driver_control.getRawAxis(5), driver_control.getRawAxis(1));
+           
+           
+           if(DvSwitch){
+            if(driver_control.getRawAxis(5) > 0.11 || driver_control.getRawAxis(5) < -0.11){
+                driver_control.setRumble(RumbleType.kRightRumble, driver_control.getRawAxis(5));
+            }
+            else if(driver_control.getRawAxis(5) > 0.1 || driver_control.getRawAxis(5) < -0.1){
+                driver_control.setRumble(RumbleType.kRightRumble, 0);
+            }
+            if(driver_control.getRawAxis(1) > 0.11 || driver_control.getRawAxis(1) < -0.11){
+                driver_control.setRumble(RumbleType.kLeftRumble, driver_control.getRawAxis(1));
+            }
+            else if(driver_control.getRawAxis(1) > 0.1 || driver_control.getRawAxis(1) < -0.1){
+                driver_control.setRumble(RumbleType.kLeftRumble, 0);
+            }
+           }
+
         }
        
         //Ball intake contol 
@@ -84,17 +112,27 @@ public class OI {
         }
 
         //arm control
-            arm.SetSpeed(operator_control.getRawAxis(1));
+            //arm.SetSpeed(operator_control.getRawAxis(1));
             SmartDashboard.putNumber("joystick arm", operator_control.getRawAxis(1));
-            /* if(operator_control.getRawButton(2)){
+            if(operator_control.getRawButton(2)){
                 arm.startArmPID(-40);
             } 
+            else if(operator_control.getPOV(0) == 90){
+                arm.startArmPID(-90);
+            }
+            else if(operator_control.getPOV(0) == 180){
+                arm.startArmPID(-60);
+            }
+            else if(operator_control.getPOV(0) == 270){
+                arm.startArmPID(-20);
+            }
             else if(operator_control.getRawButton(3)){
                 arm.disableArmPID();
             }
+           
             if(operator_control.getPOV(0) == 0){
                 arm.ArmEncoderReset();
-            } */
+            } 
         
         if(operator_control.getRawButton(2)) climb.Start_autoDepoly();
     }
