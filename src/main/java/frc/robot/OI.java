@@ -1,4 +1,5 @@
 package frc.robot;
+import java.lang.Math;
 
 import frc.robot.Motors.Drive;
 import edu.wpi.first.wpilibj.Joystick;
@@ -16,9 +17,13 @@ public class OI {
     private boolean switch_angle = false; 
     public OI(){}
     private boolean DvSwitch = false;
+   
 
 
     public void driverControl(Joystick driver_control){
+        double rRumble = java.lang.Math.abs(driver_control.getRawAxis(5));
+        double lRumble = java.lang.Math.abs(driver_control.getRawAxis(1));
+
        switch_angle = drive.switch_GotoTarget;
        if(driver_control.getPOV(0) == 0){
             drive.switch_GotoTarget = false;
@@ -41,19 +46,25 @@ public class OI {
            
            
            if(DvSwitch){
-            if(driver_control.getRawAxis(5) > 0.11 || driver_control.getRawAxis(5) < -0.11){
-                driver_control.setRumble(RumbleType.kRightRumble, driver_control.getRawAxis(5));
+                if(driver_control.getRawAxis(5) > 0.11){
+                    driver_control.setRumble(RumbleType.kRightRumble, rRumble);
+                }
+                else if(driver_control.getRawAxis(5) < -0.11){
+                    driver_control.setRumble(RumbleType.kRightRumble, rRumble);
+                }
+                else{
+                    driver_control.setRumble(RumbleType.kRightRumble, 0);
+                }
+                if(driver_control.getRawAxis(1) > 0.11){
+                    driver_control.setRumble(RumbleType.kRightRumble, lRumble);
+                }
+            else if(driver_control.getRawAxis(1) < -0.11){
+                driver_control.setRumble(RumbleType.kRightRumble, lRumble);
+                }
+                else{
+                    driver_control.setRumble(RumbleType.kRightRumble, 0);
+                }
             }
-            else if(driver_control.getRawAxis(5) > 0.1 || driver_control.getRawAxis(5) < -0.1){
-                driver_control.setRumble(RumbleType.kRightRumble, 0);
-            }
-            if(driver_control.getRawAxis(1) > 0.11 || driver_control.getRawAxis(1) < -0.11){
-                driver_control.setRumble(RumbleType.kLeftRumble, driver_control.getRawAxis(1));
-            }
-            else if(driver_control.getRawAxis(1) > 0.1 || driver_control.getRawAxis(1) < -0.1){
-                driver_control.setRumble(RumbleType.kLeftRumble, 0);
-            }
-           }
 
         }
        
