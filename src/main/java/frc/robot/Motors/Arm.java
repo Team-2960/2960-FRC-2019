@@ -15,28 +15,37 @@ import frc.robot.PID.wPIDoutput;
 
 
 public class Arm{
-
-    private Encoder eArm;
-    private wPIDoutput WPIDoutput;
-    private TalonSRX Wrist;
     private DoubleSolenoid sPusher;
+    
+    private TalonSRX Wrist;
     private CANSparkMax RTArm;
     private CANSparkMax LTArm;
-    private PIDController aPidController;
-    private  aPIDoutput  APIDoutput;
-    private static Arm m_Instance;
-    private PIDController wPidController;
+    private Encoder eArm;
     public Encoder eWrist;
+
+    private static Arm m_Instance;
+
+    private PIDController aPidController;
+    private PIDController wPidController;
+    private aPIDoutput APIDoutput;
+    private wPIDoutput WPIDoutput;
     
     public void setup(){
+        //initialize the motor
         RTArm = new CANSparkMax(Constants.rArmID1, MotorType.kBrushless);
         LTArm = new CANSparkMax(Constants.lArmID2, MotorType.kBrushless);
         Wrist = new TalonSRX(Constants.wristIntakeID);
+        
+        //initialize the Encorder
         eArm = new Encoder(Constants.eArm1, Constants.eArm2, true, Encoder.EncodingType.k4X);
+        eWrist = new Encoder(Constants.eWrist1, Constants.eWrist2);
+
+        //initialize the solenoid
         sPusher = new DoubleSolenoid(Constants.pusher1, Constants.pusher2);
         setPusher(false);
 
-        eWrist = new Encoder(Constants.eWrist1, Constants.eWrist2);
+
+        //Wrist PID
         Wrist.setInverted(false);
         eWrist.reset();
         eWrist.setMaxPeriod(.1);
@@ -49,6 +58,7 @@ public class Arm{
         wPidController = new PIDController(Constants.wP, Constants.wI, Constants.wD, eWrist, WPIDoutput);
         wPidController.setOutputRange(-1, 0.25);
         
+        //Arm PID
         eArm.reset();
         eArm.setMaxPeriod(.1);
         eArm.setMinRate(10);
@@ -61,13 +71,14 @@ public class Arm{
         aPidController.setInputRange(-90, 0);
 
 
-
+        //PID disable
         aPidController.disable();
         wPidController.disable();
     }
     private Arm(){
         setup();
     }
+
     public static Arm getInstance(){
         if (m_Instance == null){
             m_Instance = new Arm();
@@ -75,11 +86,13 @@ public class Arm{
         return m_Instance;
     }
 
+    //set up speed
     public void SetSpeed(double speed){
         RTArm.set(speed); //may have to change back for the comptation robot
         LTArm.set(-speed);
     }
     
+    //setup Pusher
     public void setPusher(boolean kDirection){
         if(kDirection){
             sPusher.set(DoubleSolenoid.Value.kForward);
@@ -89,33 +102,42 @@ public class Arm{
         }
     }
 
+    //Start Arm PID
     public void startArmPID(double Distance){
         aPidController.enable();
         aPidController.setSetpoint(Distance);
     }
+
+    //Check Arm PID is Enable
     public boolean isArmPIDEnabld(){
         return aPidController.isEnabled();
     }
+
+    //disable Arm PID
     public void disableArmPID(){
         aPidController.disable();
     }
 
+    //set speed for wrist motor
     public void SetSpeedWrist(double wrist){
         Wrist.set(ControlMode.PercentOutput, -wrist);
     }
+
+    //Start wrist PID
     public void startWristPID(double Rate){
         wPidController.enable();
         wPidController.setSetpoint(Rate);
     }
     
+    //disable wrist PID
     public void disableWristPID(){
         wPidController.disable();
     }
 
 
-
+    //reset the encoder
     public void ArmEncoderReset(){
-            eArm.reset();
+        eArm.reset();
     }
 
     public void WristEncoderReset(){

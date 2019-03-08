@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.Compressor;
 import frc.robot.Motors.Arm;
 import frc.robot.Motors.Drive;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.Ultrasonic;
 import frc.robot.Motors.Intake;
 
 
@@ -31,15 +30,17 @@ import frc.robot.Motors.Intake;
 public class Robot extends IterativeRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
+  //set joysticks
   private Joystick driver = new Joystick(0);
   private Joystick operator = new Joystick(1);
+
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  
   private OI oi;
-  private Compressor compressor = new Compressor(0);
 
-  public Ultrasonic Ultrasonic1 = new Ultrasonic(0, 1);
-  public Ultrasonic Ultrasonic2 = new Ultrasonic(8, 9);
+  private Compressor compressor = new Compressor(0);
+ 
   private Drive drive = Drive.getInstance();
   private Intake intake = Intake.getInstance();
   private Arm arm = Arm.getInstance();
@@ -56,7 +57,8 @@ public class Robot extends IterativeRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    
+
+    //camera config
     SmartDashboard.putNumber("HUE min", Constants.HUEmin);
     SmartDashboard.putNumber("HUE max", Constants.HUEmax);
     SmartDashboard.putNumber("Saturation min", Constants.Saturationmin);
@@ -64,30 +66,13 @@ public class Robot extends IterativeRobot {
     SmartDashboard.putNumber("HSValue min", Constants.HSValuemin);
     SmartDashboard.putNumber("HSValue max", Constants.HSValuemax);
     
-    SmartDashboard.putNumber("Arm P", Constants.aP);
-    SmartDashboard.putNumber("Arm I", Constants.aI);
-    SmartDashboard.putNumber("Arm D", Constants.aD);
-
+    //encoders
     SmartDashboard.putNumber("wrist distance", 0);
     SmartDashboard.putNumber("wrist rate", 0);
-
-    SmartDashboard.putNumber("gyro rate", drive.Gyro1.getRate());
-  
-
-    arm.eWrist.reset();
-
-    SmartDashboard.putNumber("ultrasonic1", Ultrasonic1.getRangeInches());
-    SmartDashboard.putNumber("ultrasonic2", Ultrasonic2.getRangeInches());
-
     SmartDashboard.putNumber("ArmEncoder Distance", 0);
     SmartDashboard.putNumber("ArmEncoder Rate", 0);
 
-
-
-
-
-    SmartDashboard.putNumber("joystick arm", 0);
-    
+    arm.eWrist.reset();
   }
 
   /**
@@ -143,23 +128,11 @@ public class Robot extends IterativeRobot {
   @Override
   public void teleopPeriodic() {
     cameraConfig();
-    ArmPIDConfig();
     drive.update();
     oi.driverControl(driver); // driver control 
     oi.operatorControl(operator); // operator control
-   // oi.Gyro(driver);
-   SmartDashboard.putNumber("gyro rate", drive.Gyro1.getRate());
   
     arm.print();
-
-   SmartDashboard.putNumber("ultrasonic1", Ultrasonic1.getRangeInches());
-   SmartDashboard.putNumber("ultrasonic2", Ultrasonic2.getRangeInches());
-  }
-
-  public void ArmPIDConfig(){
-    Constants.aP = NetworkTable.getTable("SmartDashboard").getDouble("Arm P", 0);
-    Constants.aI = NetworkTable.getTable("SmartDashboard").getDouble("Arm I", 0);
-    Constants.aD = NetworkTable.getTable("SmartDashboard").getDouble("Arm D", 0);
   }
 
   public void cameraConfig(){  //config camear value in smardashboard

@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 import java.lang.Math;
 import frc.robot.Motors.Drive;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import frc.robot.Camera.Camera;
 
 public class Drive {
@@ -19,7 +18,7 @@ public class Drive {
     private TalonSRX mLeftMaster;
     private TalonSRX mLeftFollower1;
     private TalonSRX mLeftFollower2;
-    public AnalogGyro Gyro1 = new AnalogGyro(0);
+    
     private int tolerance = 20;
     private static Drive m_Instance;
     public boolean switch_GotoAngle = false;
@@ -31,7 +30,7 @@ public class Drive {
     private Camera hatchCamera;
     public boolean switch_GotoTarget = false;
 
-     private void setupTalon(){
+    private void setupTalon(){
         //Initialize Talons
         mRightMaster = new TalonSRX(Constants.mRightMasterId);
         mRightFollower1 = new TalonSRX(Constants.mRightFollowerId1);
@@ -40,17 +39,16 @@ public class Drive {
         mLeftFollower1 = new TalonSRX(Constants.mLeftFollowerId1);
         mLeftFollower2 = new TalonSRX(Constants.mLeftFollowerId2);
 
-
         //Set follower motors
         mRightFollower1.follow(mRightMaster);
         mRightFollower2.follow(mRightMaster);
         mLeftFollower1.follow(mLeftMaster);
         mLeftFollower2.follow(mLeftMaster);
-
+        
+        //set motor invert
         mLeftMaster.setInverted(true);
         mLeftFollower2.setInverted(true);
         mLeftFollower1.setInverted(true);
-
         }
       
     public static Drive getInstance(){
@@ -60,7 +58,7 @@ public class Drive {
         return m_Instance;
     }
 
-    private Drive() {
+    private Drive(){
         hatchCamera = new Camera(0);
         setupTalon();
     }
@@ -68,62 +66,6 @@ public class Drive {
     public void setSpeed(double right, double left){
         mLeftMaster.set(ControlMode.PercentOutput, left);
         mRightMaster.set(ControlMode.PercentOutput, right);
-    }
-
-   // public boolean gotoAngle(double angle){
-        //double error = Math.abs(angle - Gyro1.getAngle());
-      //  boolean atAngle = false;
-       // int dirc = 1;
-        //if(angle - Gyro1.getAngle() < 0) dirc = -1;
-
-        
-        /* if(error > 90){
-            setSpeed(1 * dirc, 1 * dirc);
-        }
-        else if(error > 70){
-            setSpeed(0.7 * dirc, 0.7 * dirc);
-        }
-        else if(error > 50){
-            setSpeed(0.5 * dirc, 0.5 * dirc);
-        }
-        else if(error > 15){
-            setSpeed(0.3 * dirc, 0.3 * dirc);
-        }
-        else if(error > tolerance){
-            setSpeed(0.2 * dirc, 0.2 * dirc);
-            
-        }
-        else{
-            
-            setSpeed(0, 0);
-            if(sTimer){
-                tGyro.reset();
-                tGyro.start();
-                sTimer = false;
-            }
-            
-        } */
-        
-/*         if(Gyro1.getAngle() < tolerance + angle && Gyro1.getAngle() > angle - tolerance && tGyro.get() > 0.1){
-            atAngle = true;
-            tGyro.stop();
-        }
-    
-        return atAngle;
-    }
-    public double returnAngle(){
-      return Gyro1.getAngle();
-    }
-
-    
-
-    public void resetGyro(){
-        Gyro1.reset();  */
-   // } 
-
-    public void ultrasonic(){
-        
-
     }
 
     public void setAngle(double angle){
@@ -146,19 +88,6 @@ public void switchTarget() {
         if(error > tolerance){
             setSpeed(0.15 * dirc, -0.15 * dirc);
         }
-        /* else if(error > 20){
-            setSpeed(0.2 * dirc, -0.2 * dirc);
-        }
-        else if(error > 15){
-            setSpeed(0.2 * dirc, -0.2 * dirc);
-        }
-        else if(error > 10){
-            setSpeed(0.2 * dirc, -0.2 * dirc);
-        }
-        else if(error > tolerance){
-            setSpeed(0 * dirc, 0 * dirc);
-            
-        } */
         else{
             
             setSpeed(0, 0);

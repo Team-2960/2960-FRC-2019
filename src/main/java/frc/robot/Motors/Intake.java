@@ -12,8 +12,6 @@ public class Intake{
     private static Intake m_Instance;
     private DoubleSolenoid hatch;
 
-  //  private Encoder encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-
     public void setup(){
         Ball = new TalonSRX(Constants.ballIntakeID);
         hatch = new DoubleSolenoid(Constants.hatch1, Constants.hatch2);
@@ -22,22 +20,13 @@ public class Intake{
     }
     private Intake(){
         setup();
-    }
+    } 
 
     public void SetSpeedBall(double ball){
         Ball.set(ControlMode.PercentOutput, ball * 0.75);
     }
 
-    
-
-    public static Intake getInstance(){
-        if (m_Instance == null) {
-            m_Instance = new Intake();
-        }
-        return m_Instance;
-    }
-
-
+    //hatch Intake
     public void setHatch(boolean hDirection ){
         if(hDirection){
             hatch.set(DoubleSolenoid.Value.kForward);
@@ -46,6 +35,12 @@ public class Intake{
             hatch.set(DoubleSolenoid.Value.kReverse);
         }
     }
+    
 
-
+    public static Intake getInstance(){
+        if (m_Instance == null) {
+            m_Instance = new Intake();
+        }
+        return m_Instance;
+    }
 } 

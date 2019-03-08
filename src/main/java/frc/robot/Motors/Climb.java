@@ -19,12 +19,12 @@ public class Climb{
 
 
     public void setupTalon(){
+        //initialize all motors
         rClimb = new TalonSRX(Constants.ClimbID1);
         lClimb = new TalonSRX(Constants.ClimbID2);
         
         rClimb.follow(lClimb);
        // rClimb.setInverted(true);
-
 
        arm = Arm.getInstance();
 
