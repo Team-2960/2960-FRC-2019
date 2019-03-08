@@ -74,7 +74,7 @@ public class Robot extends IterativeRobot {
     SmartDashboard.putNumber("gyro rate", drive.Gyro1.getRate());
   
 
-    intake.eWrist.reset();
+    arm.eWrist.reset();
 
     SmartDashboard.putNumber("ultrasonic1", Ultrasonic1.getRangeInches());
     SmartDashboard.putNumber("ultrasonic2", Ultrasonic2.getRangeInches());
@@ -150,7 +150,6 @@ public class Robot extends IterativeRobot {
    // oi.Gyro(driver);
    SmartDashboard.putNumber("gyro rate", drive.Gyro1.getRate());
   
-    intake.print();
     arm.print();
 
    SmartDashboard.putNumber("ultrasonic1", Ultrasonic1.getRangeInches());

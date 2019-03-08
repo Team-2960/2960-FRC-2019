@@ -1,15 +1,17 @@
 package frc.robot.PID;
 
 import edu.wpi.first.wpilibj.PIDOutput;
-import frc.robot.Motors.Intake;
+import frc.robot.Motors.Arm;
 
 public class wPIDoutput implements PIDOutput{
-    Intake intake;
-    public wPIDoutput(Intake intake){
-        this.intake = intake;
+    Arm arm;
+    public wPIDoutput(Arm arm){
+        this.arm = arm;
     }
 
     public void pidWrite(double output){
-        intake.SetSpeedWrist(output);
+        arm.SetSpeedWrist(output);
+        System.out.println(output);
     }
+    
 }

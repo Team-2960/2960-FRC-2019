@@ -25,9 +25,9 @@ public class Constants {
     public static double HSValuemax = 254.54;
   
     //pid values
-    public static double wP = .9;
-    public static double wI = -0.02;
-    public static double wD = .6;
+    public static double wP = 0.03;
+    public static double wI = 0.0001;
+    public static double wD = .01;
 
     public static double aP = 0.004;
     public static double aI = 0.0001;

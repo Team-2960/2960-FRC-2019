@@ -92,7 +92,9 @@ public class OI {
 
         //wrist control
        // intake.startWristPID(2500 *-1);
-            intake.SetSpeedWrist(operator_control.getRawAxis(5));
+            
+       
+       //arm.SetSpeedWrist(operator_control.getRawAxis(5));
         
         //Climber control
         if(operator_control.getRawButton(1)) { //up
@@ -123,26 +125,39 @@ public class OI {
         }
 
         //arm control
-            //arm.SetSpeed(operator_control.getRawAxis(1));
+            if(!arm.isArmPIDEnabld()){
+                arm.SetSpeed(operator_control.getRawAxis(1));
+            }
+            
             SmartDashboard.putNumber("joystick arm", operator_control.getRawAxis(1));
+            if(operator_control.getRawButton(3)){
+                arm.disableWristPID();
+                arm.disableArmPID();
+            }
             if(operator_control.getRawButton(2)){
                 arm.startArmPID(-40);
+                //arm.startWristPID(-40);
             } 
             else if(operator_control.getPOV(0) == 90){
                 arm.startArmPID(-90);
+                //arm.startWristPID(-90);
             }
             else if(operator_control.getPOV(0) == 180){
                 arm.startArmPID(-60);
+                //arm.startWristPID(-60);
             }
             else if(operator_control.getPOV(0) == 270){
                 arm.startArmPID(-20);
+                //arm.startWristPID(-20);
             }
-            else if(operator_control.getRawButton(3)){
+            else if(operator_control.getRawAxis(1) > 0.15 || operator_control.getRawAxis(1) < -0.15){
                 arm.disableArmPID();
             }
+
+            
            
             if(operator_control.getPOV(0) == 0){
-                arm.ArmEncoderReset();
+                arm.WristEncoderReset();
             } 
         
         if(operator_control.getRawButton(2)) climb.Start_autoDepoly();
