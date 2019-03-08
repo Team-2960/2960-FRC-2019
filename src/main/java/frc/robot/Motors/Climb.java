@@ -15,9 +15,6 @@ public class Climb{
     private Timer timer = new Timer();
     private Boolean AutoDepoly_Switch = false; 
 
-
-
-
     public void setupTalon(){
         //initialize all motors
         rClimb = new TalonSRX(Constants.ClimbID1);
