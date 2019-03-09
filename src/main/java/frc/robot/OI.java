@@ -96,10 +96,10 @@ public class OI {
 
     public void operatorControl(Joystick operator_control){        
         //Climber control
-        if(operator_control.getRawButton(1)) { //up
+        if(operator_control.getPOV(0) == 0) { //up
             climb.SetSpeed(1);
         }
-        else if(operator_control.getRawButton(4)) { //down 
+        else if(operator_control.getPOV(0) == 180) { //down 
             climb.SetSpeed(-1);
         }   
         else{
@@ -117,11 +117,11 @@ public class OI {
         }
         
 
-        //sPucher
-        if(operator_control.getRawAxis(2) > 0.1){
+        //sPusher
+        if(operator_control.getRawButton(7)){
             arm.setPusher(true);
         }
-        else if(operator_control.getRawAxis(3) > 0.1){
+        else if(operator_control.getRawButton(8)){
             arm.setPusher(false);
         }
 
@@ -133,31 +133,38 @@ public class OI {
             arm.disableArmPID();
             arm.disableWristPID();
         }
-        if(operator_control.getRawButton(2)){
-            arm.startArmPID(-64);
+        if(operator_control.getPOV(0) == 90){
+            arm.startArmPID(-75);
             arm.startWristPID(20);
         } 
-        else if(operator_control.getPOV(0) == 90){
+        else if(operator_control.getRawButton(2)){
             arm.startArmPID(0);
-            arm.startWristPID(60);
+            arm.startWristPID(70);
         }
-        else if(operator_control.getPOV(0) == 180){
-            arm.startArmPID(-12);
-            arm.startWristPID(-5);
+        else if(operator_control.getRawButton(4)){
+            arm.startArmPID(-32);
+            arm.startWristPID(-20);
         }
 
         if(operator_control.getRawAxis(1) > 0.2 || operator_control.getRawAxis(1) < -0.2) 
             arm.disableArmPID();
     
         //wrist
-        if(!arm.isWristPIDEnabld()){
-            arm.SetSpeedWrist(operator_control.getRawAxis(5));
-            System.out.println("Joystick value: " + operator_control.getRawAxis(5));
+        if(operator_control.getRawAxis(3) > 0.2){
+            arm.WristPIDPosition(2);
         }
-        if(operator_control.getRawAxis(5) > 0.2 || operator_control.getRawAxis(5) < -0.2) arm.disableWristPID();
-    
-        if(operator_control.getPOV(0) == 0) arm.WristEncoderReset();
+        else if(operator_control.getRawAxis(2) > 0.2){
+            arm.WristPIDPosition(-2);
+        }
+
+
+
+
+        /* if(!arm.isWristPIDEnabld()){
+            arm.SetSpeedWrist(operator_control.getRawAxis(5));
+        } */
+        //if(operator_control.getRawAxis(5) > 0.2 || operator_control.getRawAxis(5) < -0.2) arm.disableWristPID();
         
-        if(operator_control.getRawButton(2)) climb.Start_autoDepoly();
+        if(operator_control.getRawButton(7)) climb.Start_autoDepoly();
     }
 }

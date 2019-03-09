@@ -83,8 +83,7 @@ public void switchTarget() {
         boolean atTarget = false;
         int dirc = 1;
         if(hatchCamera.getImageResults() > 0) dirc = -1;
-        System.out.println("Distance from center: " + hatchCamera.getImageResults());
-        
+
         if(error > tolerance){
             setSpeed(0.15 * dirc, -0.15 * dirc);
         }

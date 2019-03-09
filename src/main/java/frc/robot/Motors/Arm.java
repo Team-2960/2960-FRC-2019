@@ -149,7 +149,10 @@ public class Arm{
         eWrist.reset();
     }
 
-
+    public void WristPIDPosition(double position){
+        double rate = wPidController.getSetpoint() + position;
+        wPidController.setSetpoint(rate);
+    }
 
 
     public void print(){

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.OI;
 import edu.wpi.first.wpilibj.Compressor;
 import frc.robot.Motors.Arm;
+import frc.robot.Motors.Climb;
 import frc.robot.Motors.Drive;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import frc.robot.Motors.Intake;
@@ -44,6 +45,7 @@ public class Robot extends IterativeRobot{
   private Drive drive = Drive.getInstance();
   private Intake intake = Intake.getInstance();
   private Arm arm = Arm.getInstance();
+  private Climb climb = Climb.getInstance();
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -112,6 +114,7 @@ public class Robot extends IterativeRobot{
   public void teleopPeriodic() {
     cameraConfig();
     drive.update();
+    climb.update();
     oi.driverControl(driver); // driver control 
     oi.operatorControl(operator); // operator control
   
