@@ -13,7 +13,7 @@ public class Climb{
     private static Climb m_Instance;
     private Arm arm;
     private Timer timer = new Timer();
-    private Boolean AutoDepoly_Switch = false; 
+    public Boolean AutoDepoly_Switch = false; 
 
     public void setupTalon(){
         //initialize all motors
@@ -54,19 +54,21 @@ public class Climb{
     }
 
     public void Start_autoDepoly(){
-        AutoDepoly_Switch = true;
-    }
-    public  Boolean autoDepoly(){
-        Boolean AutoDepoly_Done = false;
+        timer.reset();
         timer.start();
+        AutoDepoly_Switch = true;
+        
+    }
+    public Boolean autoDepoly(){
+        Boolean AutoDepoly_Done = false;
         if(timer.get() > 0) setClamp(false);
         if(timer.get() > 0.2) SetSpeed(-0.5);
         if(timer.get() > 0.7){
             SetSpeed(0);
-            arm.SetSpeed(0.5);
+            arm.startArmPID(0);
+            arm.startWristPID(-5);
         }
         if(timer.get() > 1){
-            arm.SetSpeed(0);
             arm.setPusher(true);
             AutoDepoly_Done = true;
             timer.stop();
@@ -76,14 +78,13 @@ public class Climb{
 
     }
 
-    /* public void update(){
+     public void update(){
         if(AutoDepoly_Switch){
             Boolean aDone;
             aDone = autoDepoly();
             if(aDone){
                 AutoDepoly_Switch = false;
-                timer.reset();
             }
         }
-    } */
+    }
 }

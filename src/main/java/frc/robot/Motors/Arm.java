@@ -10,6 +10,7 @@ import frc.robot.PID.aPIDoutput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.PID.wPIDoutput;
 
@@ -35,10 +36,10 @@ public class Arm{
         RTArm = new CANSparkMax(Constants.rArmID1, MotorType.kBrushless);
         LTArm = new CANSparkMax(Constants.lArmID2, MotorType.kBrushless);
         Wrist = new TalonSRX(Constants.wristIntakeID);
-        
+        Wrist.setNeutralMode(NeutralMode.Brake);
         //initialize the Encorder
         eArm = new Encoder(Constants.eArm1, Constants.eArm2, true, Encoder.EncodingType.k4X);
-        eWrist = new Encoder(Constants.eWrist1, Constants.eWrist2);
+        eWrist = new Encoder(Constants.eWrist1, Constants.eWrist2, false, Encoder.EncodingType.k4X);
 
         //initialize the solenoid
         sPusher = new DoubleSolenoid(Constants.pusher1, Constants.pusher2);
@@ -67,7 +68,7 @@ public class Arm{
         eArm.setDistancePerPulse(360.0/1024.0);
         APIDoutput = new aPIDoutput(this);
         aPidController = new PIDController(Constants.aP, Constants.aI, Constants.aD, eArm, APIDoutput);
-        aPidController.setOutputRange(-1, 0.25);
+        aPidController.setOutputRange(-0.5, 0.25);
         aPidController.setInputRange(-90, 0);
 
 
@@ -115,7 +116,7 @@ public class Arm{
 
     //disable Arm PID
     public void disableArmPID(){
-        aPidController.disable();
+        if(aPidController.isEnabled()) aPidController.disable();
     }
 
     //set speed for wrist motor
@@ -128,10 +129,14 @@ public class Arm{
         wPidController.enable();
         wPidController.setSetpoint(Rate);
     }
-    
+    //check Wrist PID
+    public boolean isWristPIDEnabld(){
+        return wPidController.isEnabled();
+    }
+
     //disable wrist PID
     public void disableWristPID(){
-        wPidController.disable();
+        if(wPidController.isEnabled()) wPidController.disable();
     }
 
 
@@ -150,7 +155,8 @@ public class Arm{
     public void print(){
         SmartDashboard.putNumber("ArmEncoder Distance", eArm.getDistance());
         SmartDashboard.putNumber("ArmEncoder Rate", eArm.getRate());
-        
+        SmartDashboard.putBoolean("Arm PID Enable", isArmPIDEnabld());
+        SmartDashboard.putBoolean("Wrist PID Enable", isWristPIDEnabld());
             double distance2 = eWrist.getDistance();
             double distance3 = eWrist.getRate();
     

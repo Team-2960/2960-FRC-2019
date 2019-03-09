@@ -94,11 +94,7 @@ public class OI {
         }
     }
 
-    public void operatorControl(Joystick operator_control){
-
-        //wrist control
-        arm.SetSpeedWrist(operator_control.getRawAxis(5));
-        
+    public void operatorControl(Joystick operator_control){        
         //Climber control
         if(operator_control.getRawButton(1)) { //up
             climb.SetSpeed(1);
@@ -107,7 +103,9 @@ public class OI {
             climb.SetSpeed(-1);
         }   
         else{
+            if(!climb.AutoDepoly_Switch){
             climb.SetSpeed(0);
+            }
         }
 
         //clamper control
@@ -128,32 +126,36 @@ public class OI {
         }
 
         //arm control
-        if(!arm.isArmPIDEnabld()) arm.SetSpeed(operator_control.getRawAxis(1));
+        if(!arm.isArmPIDEnabld()) 
+            arm.SetSpeed(operator_control.getRawAxis(1));
         
         if(operator_control.getRawButton(3)){
-            arm.disableWristPID();
             arm.disableArmPID();
+            arm.disableWristPID();
         }
         if(operator_control.getRawButton(2)){
-            arm.startArmPID(-40);
-            //arm.startWristPID(-40);
+            arm.startArmPID(-64);
+            arm.startWristPID(20);
         } 
         else if(operator_control.getPOV(0) == 90){
-            arm.startArmPID(-90);
-            //arm.startWristPID(-90);
+            arm.startArmPID(0);
+            arm.startWristPID(60);
         }
         else if(operator_control.getPOV(0) == 180){
-            arm.startArmPID(-60);
-            //arm.startWristPID(-60);
-        }
-        else if(operator_control.getPOV(0) == 270){
-            arm.startArmPID(-20);
-            //arm.startWristPID(-20);
-        }
-        else if(operator_control.getRawAxis(1) > 0.15 || operator_control.getRawAxis(1) < -0.15){
-            arm.disableArmPID();
+            arm.startArmPID(-12);
+            arm.startWristPID(-5);
         }
 
+        if(operator_control.getRawAxis(1) > 0.2 || operator_control.getRawAxis(1) < -0.2) 
+            arm.disableArmPID();
+    
+        //wrist
+        if(!arm.isWristPIDEnabld()){
+            arm.SetSpeedWrist(operator_control.getRawAxis(5));
+            System.out.println("Joystick value: " + operator_control.getRawAxis(5));
+        }
+        if(operator_control.getRawAxis(5) > 0.2 || operator_control.getRawAxis(5) < -0.2) arm.disableWristPID();
+    
         if(operator_control.getPOV(0) == 0) arm.WristEncoderReset();
         
         if(operator_control.getRawButton(2)) climb.Start_autoDepoly();
