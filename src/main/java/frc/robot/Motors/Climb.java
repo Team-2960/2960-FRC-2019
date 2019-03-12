@@ -61,21 +61,25 @@ public class Climb{
     }
     public Boolean autoDepoly(){
         Boolean AutoDepoly_Done = false;
-        if(timer.get() > 0){
+        if(timer.get() > 0 && timer.get() < 0.2){
             setClamp(false);
-        }
-        if(timer.get() > 0.2) SetSpeed(-0.5);
-        if(timer.get() > 0.5){
+        }else if(timer.get() > 0.2 && timer.get() < 0.5){
+            SetSpeed(-0.5);
+        }else if(timer.get() > 0.5 && timer.get() < 0.7){
             arm.startArmPID(-15);
             arm.startWristPID(-10);
             setClamp(true);
-        }
-        if(timer.get() > 0.7) SetSpeed(0);
-        if(timer.get() > 1){
+        }else if(timer.get() > 0.7 && timer.get() < 1){
+            SetSpeed(0);
+        }else if(timer.get() > 1 && timer.get() < 2 && arm.atPosition()){
             arm.setPusher(true);
             AutoDepoly_Done = true;
             timer.stop();
-        }
+        }/*else if(timer.get() > 2){
+            arm.setPusher(true);
+            AutoDepoly_Done = true;
+            timer.stop();
+        }*/
 
         return AutoDepoly_Done;
 

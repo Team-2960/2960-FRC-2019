@@ -1,6 +1,7 @@
 package frc.robot.Motors;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -74,9 +75,9 @@ public class Drive {
         gyroAngle = angle;
         sTimer = true;
     }
-public void switchTarget() {
-    switch_GotoTarget = true;
-}
+    public void switchTarget() {
+        switch_GotoTarget = true;
+    }
 
     public boolean gotoTarget(){
         double error = Math.abs(hatchCamera.getImageResults());
@@ -105,7 +106,19 @@ public void switchTarget() {
     
         return atTarget;
     }
+
+    public void isTargetCentered(){
+        boolean targetAquired = false;
+        if(hatchCamera.isImageFound()){
+            if(hatchCamera.getImageResults() < tolerance && hatchCamera.getImageResults() > tolerance){
+               targetAquired = true; 
+            } 
+        }
+        SmartDashboard.putBoolean("Target Aquired!", targetAquired);
+        
+    }
     public void update(){
+       /* //Go To Angle - Not currently used
         if(switch_GotoAngle){
             boolean aDone = false; 
         
@@ -114,8 +127,9 @@ public void switchTarget() {
             if(aDone){   
                 switch_GotoAngle = false;
             }    
-        }
-        if(switch_GotoTarget) {
+        }*/
+        //Auto aquire target - Not currently in use
+        /*if(switch_GotoTarget) {
             boolean tDone = false; 
         
             tDone = gotoTarget();
@@ -123,7 +137,8 @@ public void switchTarget() {
             if(tDone){   
                 switch_GotoTarget = false;
             }
-        }
+        }*/
+        isTargetCentered();
     }
 }
 

@@ -114,10 +114,22 @@ public class Arm{
         return aPidController.isEnabled();
     }
 
+    public boolean atPosition(){
+       boolean atPosition = false;
+       if (Math.abs(aPidController.getError()) < 5)
+            atPosition = true;
+       return atPosition;
+    }
     //disable Arm PID
     public void disableArmPID(){
         if(aPidController.isEnabled()) aPidController.disable();
     }
+
+    public void ArmPIDPosition(double position){
+        double rate = aPidController.getSetpoint() + position;
+        aPidController.setSetpoint(rate);
+    }
+
 
     //set speed for wrist motor
     public void SetSpeedWrist(double wrist){

@@ -14,11 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.OI;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Motors.Arm;
 import frc.robot.Motors.Climb;
 import frc.robot.Motors.Drive;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import frc.robot.Motors.Intake;
+import edu.wpi.first.wpilibj.DriverStation;
 
 
 /**
@@ -52,13 +54,10 @@ public class Robot extends IterativeRobot{
    */
   @Override
   public void robotInit() {
+    
     oi = new OI();
 
     compressor.setClosedLoopControl(true);
-
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
 
     //camera config
     SmartDashboard.putNumber("HUE min", Constants.HUEmin);
@@ -76,12 +75,24 @@ public class Robot extends IterativeRobot{
     SmartDashboard.putBoolean("Arm PID Enable", false);
     SmartDashboard.putBoolean("Wrist PID Enable", false);
 
+    //Camera Target
+    SmartDashboard.putBoolean("Target Aquired!", false);
+
     arm.eWrist.reset();
+    intake.setHatch(true);
+    arm.startArmPID(0);
+    arm.startWristPID(0);
   }
 
   @Override
   public void robotPeriodic() {
+
+    if(DriverStation.getInstance().isDisabled()){
+      arm.disableArmPID();
+      arm.disableWristPID();
+    }
   }
+  
 
   @Override
   public void autonomousInit() {
@@ -96,15 +107,10 @@ public class Robot extends IterativeRobot{
    */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+    drive.update();
+    climb.update();
+    oi.driverControl(driver); // driver control 
+    oi.operatorControl(operator); // operator control
   }
 
   /**
@@ -112,7 +118,7 @@ public class Robot extends IterativeRobot{
    */
   @Override
   public void teleopPeriodic() {
-    cameraConfig();
+   // cameraConfig();
     drive.update();
     climb.update();
     oi.driverControl(driver); // driver control 
@@ -121,7 +127,7 @@ public class Robot extends IterativeRobot{
     arm.print();
   }
 
-  public void cameraConfig(){  //config camear value in smardashboard
+  public void cameraConfig(){  //config camera value in smardashboard
     Constants.HUEmin = NetworkTable.getTable("SmartDashboard").getDouble("HUE min", 0);
     Constants.HUEmax= NetworkTable.getTable("SmartDashboard").getDouble("HUE max", 0);
     Constants.Saturationmin = NetworkTable.getTable("SmartDashboard").getDouble("Saturation min", 0);
