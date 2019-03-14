@@ -57,7 +57,7 @@ public class Arm{
         eWrist.setDistancePerPulse(360.0/1024.0);
         WPIDoutput = new wPIDoutput(this);
         wPidController = new PIDController(Constants.wP, Constants.wI, Constants.wD, eWrist, WPIDoutput);
-        wPidController.setOutputRange(-1, 0.25);
+        wPidController.setOutputRange(-1, 0.5);
         
         //Arm PID
         eArm.reset();
@@ -88,9 +88,9 @@ public class Arm{
     }
 
     //set up speed
-    public void SetSpeed(double speed){
-        RTArm.set(speed); //may have to change back for the comptation robot
-        LTArm.set(-speed);
+    public void SetSpeed(double speed){ 
+        RTArm.set(-speed); //may have to change back for the comptation robot
+        LTArm.set(speed);
     }
     
     //setup Pusher

@@ -29,6 +29,12 @@ public class Constants {
     public static double wI = 0.0001;
     public static double wD = .01;
 
+    /* Orignal wrist values
+    public static double wP = 0.03;
+    public static double wI = 0.0001;
+    public static double wD = .01;
+    */
+
     public static double aP = 0.004;
     public static double aI = 0.0001;
     public static double aD = 0.01;  

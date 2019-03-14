@@ -135,7 +135,7 @@ public class OI {
 
         //arm control
         if(!arm.isArmPIDEnabld()) 
-            arm.SetSpeed(operator_control.getRawAxis(1));
+            arm.SetSpeed(operator_control.getRawAxis(1)*.75);
         
         if(operator_control.getRawButton(3)){
             arm.disableArmPID();
@@ -166,23 +166,23 @@ public class OI {
         }
         
         //Arm PID adjust
-        if(operator_control.getRawAxis(5) > 0.2){
-            arm.ArmPIDPosition(1);
+        /*if(operator_control.getRawAxis(5) > 0.2){
+            arm.ArmPIDPosition(3);
         }
         else if(operator_control.getRawAxis(5) < -0.2){
-            arm.ArmPIDPosition(-1);
-        }
+            arm.ArmPIDPosition(-3);
+        }*/ 
 
         //Match Timer - Alert Operator at 40 seconds
         driverMatchAlert(operator_control);
 
         //Manual Wrist
-        /* if(!arm.isWristPIDEnabld()){
+        /*if(!arm.isWristPIDEnabld()){
             arm.SetSpeedWrist(operator_control.getRawAxis(5));
-        } */
-        //if(operator_control.getRawAxis(5) > 0.2 || operator_control.getRawAxis(5) < -0.2) arm.disableWristPID();
-        
-        if(operator_control.getRawButton(7)) climb.Start_autoDepoly();
+        }
+        if(operator_control.getRawAxis(5) > 0.2 || operator_control.getRawAxis(5) < -0.2) arm.disableWristPID();
+        */
+        if(operator_control.getPOV(0) == 270) climb.Start_autoDepoly();
     }
     private void driverMatchAlert(Joystick joy){
         double time = DriverStation.getInstance().getMatchTime();
