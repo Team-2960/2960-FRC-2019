@@ -15,8 +15,8 @@ public class Intake{
     public void setup(){
         Ball = new TalonSRX(Constants.ballIntakeID);
         hatch = new DoubleSolenoid(Constants.hatch1, Constants.hatch2);
-       
-        setHatch(false);
+        
+        setHatch(true);
     }
     private Intake(){
         setup();

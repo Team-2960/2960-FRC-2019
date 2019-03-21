@@ -147,7 +147,7 @@ public class Camera{
 
 						//System.out.println("Center Target Right: " + matchTargets[0][centerTargets]);
 						//System.out.println("Center Target Left: " + matchTargets[1][centerTargets]);
-						System.out.println("Center Target Middle: " + matchTargets[2][centerTargets]); 
+						//System.out.println("Center Target Middle: " + matchTargets[2][centerTargets]); 
 						
 
 					}else{
@@ -157,7 +157,7 @@ public class Camera{
 					
 					//System.out.println("Is target found:" + lTargetFound);
 					//Allow main thread to access center
-					System.out.println("Distance from center: " + lVisionTarget);
+					//System.out.println("Distance from center: " + lVisionTarget);
 					synchronized(IMG_LOCK){
 						targetFound = lTargetFound;
 						visionTarget = lVisionTarget;

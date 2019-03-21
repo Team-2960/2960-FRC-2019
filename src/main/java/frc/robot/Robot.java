@@ -96,12 +96,11 @@ public class Robot extends IterativeRobot{
 
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // autoSelected = SmartDashboard.getString("Auto Selector",
-    // defaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    arm.WristEncoderReset();
+    arm.ArmEncoderReset();
+    arm.startArmPID(0);
+    arm.startWristPID(0);
   }
-
   /**
    * This function is called periodically during autonomous.
    */

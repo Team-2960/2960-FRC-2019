@@ -69,7 +69,7 @@ public class Arm{
         APIDoutput = new aPIDoutput(this);
         aPidController = new PIDController(Constants.aP, Constants.aI, Constants.aD, eArm, APIDoutput);
         aPidController.setOutputRange(-0.5, 0.25);
-        aPidController.setInputRange(-90, 0);
+        aPidController.setInputRange(-150, 0);
 
 
         //PID disable
@@ -165,6 +165,7 @@ public class Arm{
         double rate = wPidController.getSetpoint() + position;
         wPidController.setSetpoint(rate);
     }
+
 
 
     public void print(){

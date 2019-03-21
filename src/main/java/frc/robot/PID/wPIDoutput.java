@@ -11,7 +11,7 @@ public class wPIDoutput implements PIDOutput{
 
     public void pidWrite(double output){
         arm.SetSpeedWrist(output);
-        System.out.println(output);
+        //System.out.println(output);
     }
     
 }

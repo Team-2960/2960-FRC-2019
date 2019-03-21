@@ -98,6 +98,12 @@ public class OI {
             intake.setHatch(true);
         }
 
+        //emergency disable PID
+        if(driver_control.getRawButton(1)){
+            arm.disableArmPID();
+            arm.disableWristPID();
+        }
+
         //Match Timer - Alert Driver at 40 seconds
         driverMatchAlert(driver_control);
     }
@@ -134,16 +140,18 @@ public class OI {
         }
 
         //arm control
-        if(!arm.isArmPIDEnabld()) 
-            arm.SetSpeed(operator_control.getRawAxis(1)*.75);
-        
-        if(operator_control.getRawButton(3)){
-            arm.disableArmPID();
-            arm.disableWristPID();
+        if(!arm.isArmPIDEnabld()) {
+            if(operator_control.getRawAxis(1) > 0.1 || operator_control.getRawAxis(1) < -0.1){
+                arm.SetSpeed(operator_control.getRawAxis(1)*.5);
+            }
+            else{
+                arm.SetSpeed(operator_control.getRawAxis(1)*0);  
+            }
         }
+
         if(operator_control.getPOV(0) == 90){
             arm.startArmPID(-75);
-            arm.startWristPID(20);
+            arm.startWristPID(30);
         } 
         else if(operator_control.getRawButton(2)){
             arm.startArmPID(0);
@@ -151,7 +159,14 @@ public class OI {
         }
         else if(operator_control.getRawButton(4)){
             arm.startArmPID(-25);
-            arm.startWristPID(-20);
+            arm.startWristPID(20);
+        }
+        else if(operator_control.getRawButton(1)){
+            
+        }
+        else if(operator_control.getRawButton(3)){
+            arm.startArmPID(-15);
+            arm.startWristPID(20);
         }
 
         if(operator_control.getRawAxis(1) > 0.2 || operator_control.getRawAxis(1) < -0.2) 

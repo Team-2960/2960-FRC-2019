@@ -65,16 +65,20 @@ public class Climb{
             setClamp(false);
         }else if(timer.get() > 0.2 && timer.get() < 0.5){
             SetSpeed(-0.5);
-        }else if(timer.get() > 0.5 && timer.get() < 0.7){
-            arm.startArmPID(-15);
-            arm.startWristPID(-10);
+        }else if(timer.get() > 2 && timer.get() < 2.5){
+            arm.startArmPID(-140);
+            arm.startWristPID(68);
             setClamp(true);
-        }else if(timer.get() > 0.7 && timer.get() < 1){
+        }else if(timer.get() > 2.75 && timer.get() < 3.25){
             SetSpeed(0);
-        }else if(timer.get() > 1 && timer.get() < 2 && arm.atPosition()){
-            arm.setPusher(true);
+        }else if(timer.get() > 4){
             AutoDepoly_Done = true;
             timer.stop();
+        }
+        if(timer.get() > 2.5 && arm.atPosition()){
+            arm.startArmPID(-25);
+            arm.startWristPID(-15);
+            
         }/*else if(timer.get() > 2){
             arm.setPusher(true);
             AutoDepoly_Done = true;
