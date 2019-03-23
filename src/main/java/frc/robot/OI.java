@@ -54,29 +54,6 @@ public class OI {
 
         if(!switch_angle){
             drive.setSpeed(driver_control.getRawAxis(5), driver_control.getRawAxis(1));
-           
-           //fun code
-           /*if(DvSwitch){
-                if(driver_control.getRawAxis(5) > 0.11){
-                    driver_control.setRumble(RumbleType.kRightRumble, rRumble);
-                }
-                else if(driver_control.getRawAxis(5) < -0.11){
-                    driver_control.setRumble(RumbleType.kRightRumble, rRumble);
-                }
-                else{
-                    driver_control.setRumble(RumbleType.kRightRumble, 0);
-                }
-                if(driver_control.getRawAxis(1) > 0.11){
-                    driver_control.setRumble(RumbleType.kRightRumble, lRumble);
-                }
-                 else if(driver_control.getRawAxis(1) < -0.11){
-                driver_control.setRumble(RumbleType.kRightRumble, lRumble);
-                }
-                else{
-                    driver_control.setRumble(RumbleType.kRightRumble, 0);
-                }
-            }*/
-
         }
        
         //Ball intake contol 
@@ -88,6 +65,14 @@ public class OI {
         }
         else{
             intake.SetSpeedBall(0);  
+        }
+
+        //hatch pusher control
+        if(driver_control.getRawButton(3)){
+            intake.setHatchPusher(false);
+        }
+        else if(driver_control.getRawButton(4)){
+            intake.setHatchPusher(true);
         }
 
         //hatch control
@@ -197,6 +182,7 @@ public class OI {
         }
         if(operator_control.getRawAxis(5) > 0.2 || operator_control.getRawAxis(5) < -0.2) arm.disableWristPID();
         */
+        
         if(operator_control.getPOV(0) == 270) climb.Start_autoDepoly();
     }
     private void driverMatchAlert(Joystick joy){

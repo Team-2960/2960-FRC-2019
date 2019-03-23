@@ -46,6 +46,8 @@ public class Constants {
     public static int pusher2 = 1;
     public static int hatch1 = 4;
     public static int hatch2 = 5;
+    public static int hatch_pusher1 = 6;
+    public static int hatch_pusher2 = 7;
 
     //Digit Input Output
     public static int eWrist1 = 4;

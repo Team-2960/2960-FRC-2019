@@ -21,7 +21,7 @@ import frc.robot.Motors.Drive;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import frc.robot.Motors.Intake;
 import edu.wpi.first.wpilibj.DriverStation;
-
+import frc.robot.lights;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,13 +48,14 @@ public class Robot extends IterativeRobot{
   private Intake intake = Intake.getInstance();
   private Arm arm = Arm.getInstance();
   private Climb climb = Climb.getInstance();
+  private lights Lights;
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
   @Override
   public void robotInit() {
-    
+    Lights = new lights();
     oi = new OI();
 
     compressor.setClosedLoopControl(true);
@@ -118,12 +119,12 @@ public class Robot extends IterativeRobot{
   @Override
   public void teleopPeriodic() {
    // cameraConfig();
-    drive.update();
-    climb.update();
-    oi.driverControl(driver); // driver control 
-    oi.operatorControl(operator); // operator control
-  
-    arm.print();
+    //drive.update();
+    //climb.update();
+    //oi.driverControl(driver); // driver control 
+    //oi.operatorControl(operator); // operator control
+    Lights.sLights(DriverStation.getInstance().getAlliance());
+    //arm.print();
   }
 
   public void cameraConfig(){  //config camera value in smardashboard

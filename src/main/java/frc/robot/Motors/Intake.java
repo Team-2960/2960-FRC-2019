@@ -11,12 +11,15 @@ public class Intake{
     private TalonSRX Ball ;
     private static Intake m_Instance;
     private DoubleSolenoid hatch;
+    private DoubleSolenoid hatch_pusher;
 
     public void setup(){
         Ball = new TalonSRX(Constants.ballIntakeID);
         hatch = new DoubleSolenoid(Constants.hatch1, Constants.hatch2);
-        
-        setHatch(true);
+        hatch_pusher = new DoubleSolenoid(Constants.hatch_pusher1, Constants.hatch_pusher2);
+        setHatch(true);   //default the hatch
+        setHatchPusher(true);  //deafault the hatch pusher potision
+
     }
     private Intake(){
         setup();
@@ -35,8 +38,16 @@ public class Intake{
             hatch.set(DoubleSolenoid.Value.kReverse);
         }
     }
-    
 
+    public void setHatchPusher(boolean hDirection ){
+        if(hDirection){
+            hatch_pusher.set(DoubleSolenoid.Value.kForward);
+        }
+        else if(!hDirection){
+            hatch_pusher.set(DoubleSolenoid.Value.kReverse);
+        }
+    }
+    
     public static Intake getInstance(){
         if (m_Instance == null) {
             m_Instance = new Intake();
