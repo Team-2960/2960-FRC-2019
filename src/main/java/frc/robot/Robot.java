@@ -69,8 +69,8 @@ public class Robot extends IterativeRobot{
     SmartDashboard.putNumber("HSValue max", Constants.HSValuemax);
     
     //encoders
-    SmartDashboard.putNumber("wrist distance", 0);
-    SmartDashboard.putNumber("wrist rate", 0);
+    SmartDashboard.putNumber("Wrist Distance", 0);
+    SmartDashboard.putNumber("Wrist Rate", 0);
     SmartDashboard.putNumber("ArmEncoder Distance", 0);
     SmartDashboard.putNumber("ArmEncoder Rate", 0);
     SmartDashboard.putBoolean("Arm PID Enable", false);
@@ -78,6 +78,10 @@ public class Robot extends IterativeRobot{
 
     //Camera Target
     SmartDashboard.putBoolean("Target Aquired!", false);
+
+    //limit switch
+    SmartDashboard.putBoolean("Limit Switch", false);
+    SmartDashboard.putNumber("Mortor Speed", 0);
 
     arm.eWrist.reset();
     intake.setHatch(true);
@@ -130,7 +134,7 @@ public class Robot extends IterativeRobot{
     oi.driverControl(driver); // driver control 
     oi.operatorControl(operator); // operator control
     //oi.lights();
-    //arm.print();
+    arm.print();
   }
 
   public void cameraConfig(){  //config camera value in smardashboard

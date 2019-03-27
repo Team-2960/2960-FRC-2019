@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.PID.wPIDoutput;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 
 public class Arm{
@@ -30,6 +31,7 @@ public class Arm{
     private PIDController wPidController;
     private aPIDoutput APIDoutput;
     private wPIDoutput WPIDoutput;
+    private DigitalInput wristLimit;
     
     public void setup(){
         //initialize the motor
@@ -44,6 +46,10 @@ public class Arm{
         //initialize the solenoid
         sPusher = new DoubleSolenoid(Constants.pusher1, Constants.pusher2);
         setPusher(false);
+
+        //initialize wristLimit
+        wristLimit = new DigitalInput(Constants.wLimit);
+
 
 
         //Wrist PID
@@ -151,6 +157,10 @@ public class Arm{
         if(wPidController.isEnabled()) wPidController.disable();
     }
 
+    //limit switch
+    public boolean isWristLimit(){
+        return !wristLimit.get();
+    }
 
     //reset the encoder
     public void ArmEncoderReset(){
@@ -176,8 +186,10 @@ public class Arm{
             double distance2 = eWrist.getDistance();
             double distance3 = eWrist.getRate();
     
-            SmartDashboard.putNumber("wrist distance", distance2);
-            SmartDashboard.putNumber("wrist rate", distance3);
+            SmartDashboard.putNumber("Wrist Distance", distance2);
+            SmartDashboard.putNumber("Wrist Rate", distance3);
+            SmartDashboard.putBoolean("Limit Switch", isWristLimit());
+            SmartDashboard.putNumber("Mortor Speed", Wrist.getMotorOutputPercent());
         
     }
 

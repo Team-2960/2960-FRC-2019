@@ -10,6 +10,11 @@ public class wPIDoutput implements PIDOutput{
     }
 
     public void pidWrite(double output){
+        /*if (arm.isWristLimit() && output < 0.0)
+        {
+            output = 0;
+        }
+        */
         arm.SetSpeedWrist(output);
         //System.out.println(output);
     }

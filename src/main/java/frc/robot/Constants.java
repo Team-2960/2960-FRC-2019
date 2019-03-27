@@ -50,11 +50,12 @@ public class Constants {
     public static int hatch_pusher2 = 7;
 
     //Digit Input Output
-    public static int eWrist1 = 4;
-    public static int eWrist2 = 5;
+    public static int eWrist1 = 8; //was 4
+    public static int eWrist2 = 9; //was 5
     public static int eArm1 = 2;
     public static int eArm2 = 3;
     public static int light1 = 0;
     public static int light2 = 1;
-    public static int cameraoffset = -54;
+    public static int wLimit = 6;
+    public static int cameraoffset = 0;
 }

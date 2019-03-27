@@ -137,27 +137,33 @@ public class OI {
                 arm.SetSpeed(operator_control.getRawAxis(1)*0);  
             }
         }
-
+        //cargo cargoship
         if(operator_control.getPOV(0) == 90){
             arm.startArmPID(-75);
             arm.startWristPID(30);
         } 
+        //ball pickup
         else if(operator_control.getRawButton(2)){
             arm.startArmPID(0);
-            arm.startWristPID(70);
+            arm.startWristPID(60);
         }
+        //hatch pickup
         else if(operator_control.getRawButton(4)){
-            arm.startArmPID(-25);
-            arm.startWristPID(20);
+            arm.startArmPID(-13);
+            arm.startWristPID(35);
         }
+        //level two cargo
+        else if(operator_control.getRawButton(3)) {
+            arm.startArmPID(-98);
+            arm.startWristPID(12);
+        }
+        //level two hatch
         else if(operator_control.getRawButton(1)){
-            
+            arm.startArmPID(-98);
+            arm.startWristPID(12);
         }
-        else if(operator_control.getRawButton(3)){
-            arm.startArmPID(-15);
-            arm.startWristPID(20);
-        }
-
+        
+          
         if(operator_control.getRawAxis(1) > 0.2 || operator_control.getRawAxis(1) < -0.2) 
             arm.disableArmPID();
     

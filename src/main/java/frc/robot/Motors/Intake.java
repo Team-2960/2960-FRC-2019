@@ -18,7 +18,7 @@ public class Intake{
         hatch = new DoubleSolenoid(Constants.hatch1, Constants.hatch2);
         hatch_pusher = new DoubleSolenoid(Constants.hatch_pusher1, Constants.hatch_pusher2);
         setHatch(true);   //default the hatch
-        setHatchPusher(true);  //deafault the hatch pusher potision
+        setHatchPusher(false);  //deafault the hatch pusher potision
 
     }
     private Intake(){
