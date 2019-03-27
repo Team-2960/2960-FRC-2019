@@ -4,37 +4,54 @@ import java.sql.Driver;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.Constants;
 
 public class lights{
-    private DigitalOutput dig1;
-    private DigitalOutput dig2;
+    private double DriverAlert = 40;
+    private DigitalOutput light1;
+    private DigitalOutput light2;
+    private static lights m_Instance;
 
-    public lights(){
-        dig1 = new DigitalOutput(1);
-        dig2 = new DigitalOutput(2);
-    
+    private lights(){
+        light1 = new DigitalOutput(Constants.light1);
+        light2 = new DigitalOutput(Constants.light2);
     }
+
+    public static lights getInstance(){
+        if (m_Instance == null) {
+            m_Instance = new lights();
+        }
+        return m_Instance;
+    }
+
     public void sLights(DriverStation.Alliance Color){
        
         
 
         if(Color == DriverStation.Alliance.Blue ){
-            dig1.set(true);
-            dig2.set(false);
+            light1.set(true);
+            light2.set(false);
         }else if(Color == DriverStation.Alliance.Red ){
-            dig1.set(false);
-            dig2.set(true);
+            light1.set(false);
+            light2.set(true);
         }
-        else{
-            dig1.set(false);
-            dig2.set(false);
-        }
+    
+    double time = DriverStation.getInstance().getMatchTime();
+    if(time <= DriverAlert){
+        light1.set(true);
+        light2.set(true);
+    
+        
 
     }
-
-
-
+}
+    public void rainbow(){
+        light1.set(false);
+        light2.set(false);
+    }
+    
 
 
 

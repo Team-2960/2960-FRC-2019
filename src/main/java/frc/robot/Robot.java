@@ -55,7 +55,7 @@ public class Robot extends IterativeRobot{
    */
   @Override
   public void robotInit() {
-    Lights = new lights();
+    Lights = lights.getInstance();
     oi = new OI();
 
     compressor.setClosedLoopControl(true);
@@ -83,14 +83,19 @@ public class Robot extends IterativeRobot{
     intake.setHatch(true);
     arm.startArmPID(0);
     arm.startWristPID(0);
+    
+
   }
 
   @Override
   public void robotPeriodic() {
 
+    //Lights.sLights(DriverStation.getInstance().getAlliance());
+
     if(DriverStation.getInstance().isDisabled()){
       arm.disableArmPID();
       arm.disableWristPID();
+      
     }
   }
   
@@ -118,12 +123,13 @@ public class Robot extends IterativeRobot{
    */
   @Override
   public void teleopPeriodic() {
-   // cameraConfig();
-    //drive.update();
-    //climb.update();
-    //oi.driverControl(driver); // driver control 
-    //oi.operatorControl(operator); // operator control
-    Lights.sLights(DriverStation.getInstance().getAlliance());
+    
+    //cameraConfig();
+    drive.update();
+    climb.update();
+    oi.driverControl(driver); // driver control 
+    oi.operatorControl(operator); // operator control
+    //oi.lights();
     //arm.print();
   }
 

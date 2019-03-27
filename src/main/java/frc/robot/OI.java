@@ -15,22 +15,20 @@ public class OI {
     private Intake intake = Intake.getInstance();
     private Climb climb = Climb.getInstance();
     private Arm arm = Arm.getInstance();
-
+    //private lights Lights;
     //switch on or off
     private boolean switch_angle = false; 
     private boolean DvSwitch = false;
     private double firstDriverAlert = 40;
     private double secondDriverAlert = 30;
     private double duration = 1; 
-   
+    private boolean light_switch = true;
 
     public OI(){
-
+//        Lights = lights.getInstance();
     }
 
     public void driverControl(Joystick driver_control){
-        double rRumble = java.lang.Math.abs(driver_control.getRawAxis(5));
-        double lRumble = java.lang.Math.abs(driver_control.getRawAxis(1));
 
        switch_angle = false; //drive.switch_GotoTarget;
        //This code is for auto target tracking
@@ -54,6 +52,7 @@ public class OI {
 
         if(!switch_angle){
             drive.setSpeed(driver_control.getRawAxis(5), driver_control.getRawAxis(1));
+           
         }
        
         //Ball intake contol 
@@ -67,20 +66,20 @@ public class OI {
             intake.SetSpeedBall(0);  
         }
 
-        //hatch pusher control
-        if(driver_control.getRawButton(3)){
-            intake.setHatchPusher(false);
-        }
-        else if(driver_control.getRawButton(4)){
-            intake.setHatchPusher(true);
-        }
-
-        //hatch control
+        //hatch ccontrol
         if(driver_control.getRawButton(5)){
             intake.setHatch(false);
         }
         else if(driver_control.getRawButton(6)){
             intake.setHatch(true);
+        }
+
+        //hatch pusher
+        if(driver_control.getRawButton(10)){
+            intake.setHatchPusher(false);
+        }
+        else if(driver_control.getRawButton(9)){
+            intake.setHatchPusher(true);
         }
 
         //emergency disable PID
@@ -93,13 +92,18 @@ public class OI {
         driverMatchAlert(driver_control);
     }
 
-    public void operatorControl(Joystick operator_control){        
+    public void operatorControl(Joystick operator_control){   
+        
+       
+
         //Climber control
         if(operator_control.getPOV(0) == 0) { //up
             climb.SetSpeed(1);
+           // Lights.rainbow();
         }
         else if(operator_control.getPOV(0) == 180) { //down 
             climb.SetSpeed(-1);
+            //Lights.rainbow();
         }   
         else{
             if(!climb.AutoDepoly_Switch){
@@ -182,9 +186,13 @@ public class OI {
         }
         if(operator_control.getRawAxis(5) > 0.2 || operator_control.getRawAxis(5) < -0.2) arm.disableWristPID();
         */
-        
         if(operator_control.getPOV(0) == 270) climb.Start_autoDepoly();
     }
+    public void lights(){
+        if(light_switch){
+            //Lights.sLights(DriverStation.getInstance().getAlliance());
+        }
+        }
     private void driverMatchAlert(Joystick joy){
         double time = DriverStation.getInstance().getMatchTime();
         if((time >= firstDriverAlert && time <= firstDriverAlert+duration) || 
@@ -198,6 +206,5 @@ public class OI {
             joy.setRumble(RumbleType.kLeftRumble, 0);
             joy.setRumble(RumbleType.kRightRumble, 0);
         }
-
     }
 }

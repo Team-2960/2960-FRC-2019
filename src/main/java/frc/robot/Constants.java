@@ -54,6 +54,7 @@ public class Constants {
     public static int eWrist2 = 5;
     public static int eArm1 = 2;
     public static int eArm2 = 3;
-
+    public static int light1 = 0;
+    public static int light2 = 1;
     public static int cameraoffset = -54;
 }
