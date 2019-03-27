@@ -15,7 +15,7 @@ public class OI {
     private Intake intake = Intake.getInstance();
     private Climb climb = Climb.getInstance();
     private Arm arm = Arm.getInstance();
-    //private lights Lights;
+    private lights Lights = lights.getInstance();
     //switch on or off
     private boolean switch_angle = false; 
     private boolean DvSwitch = false;
@@ -99,11 +99,11 @@ public class OI {
         //Climber control
         if(operator_control.getPOV(0) == 0) { //up
             climb.SetSpeed(1);
-           // Lights.rainbow();
+           //light_switch = false;
         }
         else if(operator_control.getPOV(0) == 180) { //down 
             climb.SetSpeed(-1);
-            //Lights.rainbow();
+                //light_switch = false;
         }   
         else{
             if(!climb.AutoDepoly_Switch){
@@ -191,6 +191,9 @@ public class OI {
     public void lights(){
         if(light_switch){
             //Lights.sLights(DriverStation.getInstance().getAlliance());
+        }
+        else if(!light_switch){
+            //Lights.rainbow();
         }
         }
     private void driverMatchAlert(Joystick joy){
