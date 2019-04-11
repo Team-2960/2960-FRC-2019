@@ -86,10 +86,18 @@ public class OI {
         }
 
         //emergency disable PID
-        if(driver_control.getRawButton(1)){
+        if(driver_control.getRawButton(4)){
             arm.disableArmPID();
             arm.disableWristPID();
         }
+
+        if(driver_control.getRawButton(2)){
+            climb.setClamp(true);
+        }
+        else if(driver_control.getRawButton(1)){
+            climb.setClamp(false);
+        }
+        
 
         //Match Timer - Alert Driver at 40 seconds
         driverMatchAlert(driver_control);
@@ -145,8 +153,8 @@ public class OI {
         }
         //cargo cargoship
         if(operator_control.getPOV(0) == 90){
-            arm.startArmPID(-75);
-            arm.startWristPID(48);
+            arm.startArmPID(-85);
+            arm.startWristPID(20);
         } 
         //ball pickup
         else if(operator_control.getRawButton(2)){
@@ -155,13 +163,13 @@ public class OI {
         }
         //hatch pickup
         else if(operator_control.getRawButton(4)){
-            arm.startArmPID(-14);
-            arm.startWristPID(5);
+            arm.startArmPID(-25);
+            arm.startWristPID(13);
         }
         //level two cargo
         else if(operator_control.getRawButton(3)) {
-            arm.startArmPID(-98);
-            arm.startWristPID(15);
+            arm.startArmPID(-90);
+            arm.startWristPID(4);
         }
         //level two hatch
         else if(operator_control.getRawButton(1)){
