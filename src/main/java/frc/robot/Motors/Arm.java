@@ -45,7 +45,7 @@ public class Arm{
 
         //initialize the solenoid
         sPusher = new DoubleSolenoid(Constants.pusher1, Constants.pusher2);
-        setPusher(false);
+        setPusher(0);
 
         //initialize wristLimit
         wristLimit = new DigitalInput(Constants.wLimit);
@@ -75,7 +75,7 @@ public class Arm{
         APIDoutput = new aPIDoutput(this);
         aPidController = new PIDController(Constants.aP, Constants.aI, Constants.aD, eArm, APIDoutput);
         aPidController.setOutputRange(-0.5, 0.25);
-        aPidController.setInputRange(-150, 0);
+        aPidController.setInputRange(-160, 0);
 
 
         //PID disable
@@ -100,12 +100,15 @@ public class Arm{
     }
     
     //setup Pusher
-    public void setPusher(boolean kDirection){
-        if(kDirection){
+    public void setPusher(int kDirection){
+        if(kDirection == 1){
             sPusher.set(DoubleSolenoid.Value.kForward);
         }
-        else if(!kDirection){
+        else if(kDirection == 0){
             sPusher.set(DoubleSolenoid.Value.kReverse);
+        }
+        else {
+            sPusher.set(DoubleSolenoid.Value.kOff);
         }
     }
 
@@ -176,6 +179,20 @@ public class Arm{
         wPidController.setSetpoint(rate);
     }
 
+    public void defenseMode(boolean mSwitch){
+        if(mSwitch){
+            startArmPID(0);
+            startWristPID(0);
+            disableArmPID();
+            disableWristPID();
+            SetSpeed(0.05);
+            SetSpeedWrist(0.05);
+        }
+    }
+
+    public void update(){
+        
+    }
 
 
     public void print(){
@@ -190,7 +207,6 @@ public class Arm{
             SmartDashboard.putNumber("Wrist Rate", distance3);
             SmartDashboard.putBoolean("Limit Switch", isWristLimit());
             SmartDashboard.putNumber("Mortor Speed", Wrist.getMotorOutputPercent());
-        
     }
 
 }

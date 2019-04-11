@@ -8,20 +8,20 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants;
 
-public class lights{
+public class Lights{
     private double DriverAlert = 40;
     private DigitalOutput light1;
     private DigitalOutput light2;
-    private static lights m_Instance;
+    private static Lights m_Instance;
 
-    private lights(){
+    private Lights(){
         light1 = new DigitalOutput(Constants.light1);
         light2 = new DigitalOutput(Constants.light2);
     }
 
-    public static lights getInstance(){
+    public static Lights getInstance(){
         if (m_Instance == null) {
-            m_Instance = new lights();
+            m_Instance = new Lights();
         }
         return m_Instance;
     }

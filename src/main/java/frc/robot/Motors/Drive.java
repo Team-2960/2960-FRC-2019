@@ -75,15 +75,15 @@ public class Drive {
         gyroAngle = angle;
         sTimer = true;
     }
-    public void switchTarget() {
+    /* public void switchTarget() {
         switch_GotoTarget = true;
-    }
+    } */
 
     public boolean gotoTarget(){
-        double error = Math.abs(hatchCamera.getImageResults());
+        double error = 0.0;//Math.abs(hatchCamera.getImageResults());
         boolean atTarget = false;
         int dirc = 1;
-        if(hatchCamera.getImageResults() > 0) dirc = -1;
+        //if(hatchCamera.getImageResults() > 0) dirc = -1;
 
         if(error > tolerance){
             setSpeed(0.15 * dirc, -0.15 * dirc);
@@ -99,21 +99,21 @@ public class Drive {
            atTarget = true;
         }
         
-        if(hatchCamera.getImageResults() < tolerance && hatchCamera.getImageResults() > tolerance && tTarget.get() > 0.1){
+        /* if(hatchCamera.getImageResults() < tolerance && hatchCamera.getImageResults() > tolerance && tTarget.get() > 0.1){
             atTarget = true;
             tTarget.stop();
-        } 
+        } */ 
     
         return atTarget;
     }
 
     public void isTargetCentered(){
         boolean targetAquired = false;
-        if(hatchCamera.isImageFound()){
+        /* if(hatchCamera.isImageFound()){
             if(hatchCamera.getImageResults() < tolerance && hatchCamera.getImageResults() > tolerance){
                targetAquired = true; 
             } 
-        }
+        } */
         SmartDashboard.putBoolean("Target Aquired!", targetAquired);
         
     }

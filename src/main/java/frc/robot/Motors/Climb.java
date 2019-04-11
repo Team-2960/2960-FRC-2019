@@ -14,12 +14,16 @@ public class Climb{
     private Arm arm;
     private Timer timer = new Timer();
     public Boolean AutoDepoly_Switch = false; 
+    private Intake intake = Intake.getInstance();
 
     public void setupTalon(){
         //initialize all motors
+
         rClimb = new TalonSRX(Constants.ClimbID1);
         lClimb = new TalonSRX(Constants.ClimbID2);
         
+    
+
         rClimb.follow(lClimb);
        // rClimb.setInverted(true);
 
@@ -61,12 +65,15 @@ public class Climb{
     }
     public Boolean autoDepoly(){
         Boolean AutoDepoly_Done = false;
-        if(timer.get() > 0 && timer.get() < 0.2){
+
+        //old code
+        /* if(timer.get() > 0 && timer.get() < 0.2){
             setClamp(false);
+            intake.setHatchPusher(0);
         }else if(timer.get() > 0.2 && timer.get() < 0.5){
-            SetSpeed(-0.5);
+            SetSpeed(-0.4);
         }else if(timer.get() > 2 && timer.get() < 2.5){
-            arm.startArmPID(-140);
+            arm.startArmPID(-150);
             arm.startWristPID(68);
             setClamp(true);
         }else if(timer.get() > 2.75 && timer.get() < 3.25){
@@ -78,12 +85,25 @@ public class Climb{
         if(timer.get() > 2.5 && arm.atPosition()){
             arm.startArmPID(-25);
             arm.startWristPID(-15);
-            
-        }/*else if(timer.get() > 2){
-            arm.setPusher(true);
+        } */
+        if(timer.get() > 0 && timer.get() < 0.2){
+            setClamp(false);
+            intake.setHatchPusher(0);
+        }else if(timer.get() > 0.2 && timer.get() < 0.5){
+            SetSpeed(-1);
+            arm.startArmPID(-150);
+            arm.startWristPID(68);
+            setClamp(true);
+        }else if(timer.get() > 1 && timer.get() < 1.5){
+            SetSpeed(0);
+        }else if(timer.get() > 2){
             AutoDepoly_Done = true;
             timer.stop();
-        }*/
+        }
+        if(timer.get() > 1 && arm.atPosition()){
+            arm.startArmPID(-25);
+            arm.startWristPID(-15);    
+    }
 
         return AutoDepoly_Done;
 

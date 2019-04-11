@@ -18,7 +18,7 @@ public class Intake{
         hatch = new DoubleSolenoid(Constants.hatch1, Constants.hatch2);
         hatch_pusher = new DoubleSolenoid(Constants.hatch_pusher1, Constants.hatch_pusher2);
         setHatch(true);   //default the hatch
-        setHatchPusher(false);  //deafault the hatch pusher potision
+        setHatchPusher(1);  //deafault the hatch pusher potision
 
     }
     private Intake(){
@@ -39,12 +39,15 @@ public class Intake{
         }
     }
 
-    public void setHatchPusher(boolean hDirection ){
-        if(hDirection){
+    public void setHatchPusher(int hDirection){
+        if(hDirection == 1){
             hatch_pusher.set(DoubleSolenoid.Value.kForward);
         }
-        else if(!hDirection){
+        else if(hDirection == 0){
             hatch_pusher.set(DoubleSolenoid.Value.kReverse);
+        }
+        else{
+            hatch_pusher.set(DoubleSolenoid.Value.kOff);     
         }
     }
     

@@ -35,18 +35,18 @@ public class Camera{
 	public Camera(int cameraPort){  
 		//Setup camera
 		camera = CameraServer.getInstance().startAutomaticCapture(cameraPort);
-		camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		//camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
 
 		//Get video from camera 
-		cam_sink = CameraServer.getInstance().getVideo();
+		//cam_sink = CameraServer.getInstance().getVideo();
 
 		IMG_LOCK = new Object();
 
 		//Camera output to smartdash board
-		hsv_threashold_source = CameraServer.getInstance().putVideo("HSV Threshold", IMG_WIDTH, IMG_HEIGHT);
-		erode_source = CameraServer.getInstance().putVideo("Erode", IMG_WIDTH, IMG_HEIGHT);
+		//hsv_threashold_source = CameraServer.getInstance().putVideo("HSV Threshold", IMG_WIDTH, IMG_HEIGHT);
+		//erode_source = CameraServer.getInstance().putVideo("Erode", IMG_WIDTH, IMG_HEIGHT);
 
-		startThread();
+		//startThread();
 	}
 	
 	private void startThread(){

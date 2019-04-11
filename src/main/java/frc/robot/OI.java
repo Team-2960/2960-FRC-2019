@@ -15,12 +15,12 @@ public class OI {
     private Intake intake = Intake.getInstance();
     private Climb climb = Climb.getInstance();
     private Arm arm = Arm.getInstance();
-    private lights Lights = lights.getInstance();
+    private Lights lights = Lights.getInstance();
     //switch on or off
     private boolean switch_angle = false; 
     private boolean DvSwitch = false;
-    private double firstDriverAlert = 40;
-    private double secondDriverAlert = 30;
+    private double firstDriverAlert = 30;
+    private double secondDriverAlert = 20;
     private double duration = 1; 
     private boolean light_switch = true;
 
@@ -76,10 +76,13 @@ public class OI {
 
         //hatch pusher
         if(driver_control.getRawButton(10)){
-            intake.setHatchPusher(false);
+            intake.setHatchPusher(0);
         }
         else if(driver_control.getRawButton(9)){
-            intake.setHatchPusher(true);
+            intake.setHatchPusher(1);
+        }
+        else{
+            intake.setHatchPusher(2);
         }
 
         //emergency disable PID
@@ -122,10 +125,13 @@ public class OI {
 
         //sPusher
         if(operator_control.getRawButton(7)){
-            arm.setPusher(true);
+            arm.setPusher(1);
         }
         else if(operator_control.getRawButton(8)){
-            arm.setPusher(false);
+            arm.setPusher(0);
+        }
+        else{
+            arm.setPusher(2);
         }
 
         //arm control
@@ -140,27 +146,27 @@ public class OI {
         //cargo cargoship
         if(operator_control.getPOV(0) == 90){
             arm.startArmPID(-75);
-            arm.startWristPID(30);
+            arm.startWristPID(48);
         } 
         //ball pickup
         else if(operator_control.getRawButton(2)){
             arm.startArmPID(0);
-            arm.startWristPID(60);
+            arm.startWristPID(87);
         }
         //hatch pickup
         else if(operator_control.getRawButton(4)){
-            arm.startArmPID(-13);
-            arm.startWristPID(35);
+            arm.startArmPID(-14);
+            arm.startWristPID(5);
         }
         //level two cargo
         else if(operator_control.getRawButton(3)) {
             arm.startArmPID(-98);
-            arm.startWristPID(12);
+            arm.startWristPID(15);
         }
         //level two hatch
         else if(operator_control.getRawButton(1)){
             arm.startArmPID(-98);
-            arm.startWristPID(12);
+            arm.startWristPID(41);
         }
         
           

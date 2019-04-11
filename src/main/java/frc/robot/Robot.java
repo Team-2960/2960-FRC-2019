@@ -21,7 +21,7 @@ import frc.robot.Motors.Drive;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import frc.robot.Motors.Intake;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.lights;
+import frc.robot.Lights;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,14 +48,13 @@ public class Robot extends IterativeRobot{
   private Intake intake = Intake.getInstance();
   private Arm arm = Arm.getInstance();
   private Climb climb = Climb.getInstance();
-  private lights Lights;
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
   @Override
   public void robotInit() {
-    Lights = lights.getInstance();
     oi = new OI();
 
     compressor.setClosedLoopControl(true);

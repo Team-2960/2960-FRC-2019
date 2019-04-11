@@ -25,7 +25,7 @@ public class Constants {
     public static double HSValuemax = 254.54;
   
     //pid values
-    public static double wP = 0.03;
+    public static double wP = 0.04;
     public static double wI = 0.0001;
     public static double wD = .01;
 
@@ -50,8 +50,8 @@ public class Constants {
     public static int hatch_pusher2 = 7;
 
     //Digit Input Output
-    public static int eWrist1 = 8; //was 4
-    public static int eWrist2 = 9; //was 5
+    public static int eWrist1 = 4; 
+    public static int eWrist2 = 5;
     public static int eArm1 = 2;
     public static int eArm2 = 3;
     public static int light1 = 0;
