@@ -66,7 +66,16 @@ public class OI {
             intake.SetSpeedBall(0);  
         }
 
-        //hatch ccontrol
+        if(driver_control.getRawButton(4)){
+            arm.disableArmPID();
+            arm.disableWristPID();
+            intake.setHatch(true);
+            intake.setHatchPusher(0);
+            arm.SetSpeed(-0.3);
+            arm.SetSpeedWrist(-0.2);
+       }
+
+        //hatch control
         if(driver_control.getRawButton(5)){
             intake.setHatch(false);
         }
@@ -86,7 +95,7 @@ public class OI {
         }
 
         //emergency disable PID
-        if(driver_control.getRawButton(4)){
+        if(driver_control.getRawButton(3)){
             arm.disableArmPID();
             arm.disableWristPID();
         }
@@ -104,8 +113,13 @@ public class OI {
     }
 
     public void operatorControl(Joystick operator_control){   
-        
-       
+        if(operator_control.getRawButton(1)){
+            arm.startArmPID(-15);
+            arm.startWristPID(13);
+        }
+
+
+
 
         //Climber control
         if(operator_control.getPOV(0) == 0) { //up
@@ -154,7 +168,7 @@ public class OI {
         //cargo cargoship
         if(operator_control.getPOV(0) == 90){
             arm.startArmPID(-85);
-            arm.startWristPID(20);
+            arm.startWristPID(30); // 20
         } 
         //ball pickup
         else if(operator_control.getRawButton(2)){
@@ -166,17 +180,11 @@ public class OI {
             arm.startArmPID(-25);
             arm.startWristPID(13);
         }
-        //level two cargo
+        //level two hatch
         else if(operator_control.getRawButton(3)) {
             arm.startArmPID(-90);
             arm.startWristPID(4);
         }
-        //level two hatch
-        else if(operator_control.getRawButton(1)){
-            arm.startArmPID(-98);
-            arm.startWristPID(41);
-        }
-        
           
         if(operator_control.getRawAxis(1) > 0.2 || operator_control.getRawAxis(1) < -0.2) 
             arm.disableArmPID();

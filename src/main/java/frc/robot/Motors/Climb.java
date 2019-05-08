@@ -13,6 +13,7 @@ public class Climb{
     private static Climb m_Instance;
     private Arm arm;
     private Timer timer = new Timer();
+    private Timer delay = new Timer();
     public Boolean AutoDepoly_Switch = false; 
     private Intake intake = Intake.getInstance();
 
@@ -67,7 +68,7 @@ public class Climb{
         Boolean AutoDepoly_Done = false;
 
         
-        if(timer.get() > 0 && timer.get() < 0.2){
+        /* if(timer.get() > 0 && timer.get() < 0.2){
             setClamp(false);
             intake.setHatchPusher(0);
         }else if(timer.get() > 0.2 && timer.get() < 0.5){
@@ -85,29 +86,37 @@ public class Climb{
         if(timer.get() > 2.5 && arm.atPosition()){
             arm.startArmPID(-25);
             arm.startWristPID(-15);
-        }
+        } */
         
-        /* if(timer.get() > 0 && timer.get() < 0.2){
+        // Open Clamp and Pusher in
+        if(timer.get() > 0 && timer.get() < 0.2){
             setClamp(false);
             intake.setHatchPusher(0);
+
+        // Winch out and Arm up
         }else if(timer.get() > 0.2 && timer.get() < 0.5){
             SetSpeed(-1);
             arm.startArmPID(-150);
             arm.startWristPID(68);
             setClamp(true);
+
+        //Stop Winch
         }else if(timer.get() > 1 && timer.get() < 1.5){
             SetSpeed(0);
+
+        // Auto Deploy Done
         }else if(timer.get() > 2){
             AutoDepoly_Done = true;
             timer.stop();
         }
-        if(timer.get() > 1 && arm.atPosition()){
+
+        // Move Arm Down
+        if(AutoDepoly_Done){
             arm.startArmPID(-25);
             arm.startWristPID(-15);    
-        } */
+        }
 
         return AutoDepoly_Done;
-
     }
 
      public void update(){
