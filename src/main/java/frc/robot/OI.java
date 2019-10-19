@@ -50,7 +50,7 @@ public class OI {
         }*/
 
         if(!switch_angle){
-            drive.setSpeed(driver_control.getRawAxis(5), driver_control.getRawAxis(1));
+            drive.setSpeed(driver_control.getRawAxis(5) * 0.5, driver_control.getRawAxis(1) * 0.5);
            
         }
        
@@ -99,12 +99,12 @@ public class OI {
             arm.disableWristPID();
         }
 
-        if(driver_control.getRawButton(2)){
+        /* if(driver_control.getRawButton(2)){
             climb.setClamp(true);
         }
         else if(driver_control.getRawButton(1)){
             climb.setClamp(false);
-        }
+        } */
         
 
         //Match Timer - Alert Driver at 40 seconds
