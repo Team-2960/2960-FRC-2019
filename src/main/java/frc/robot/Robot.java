@@ -21,7 +21,6 @@ import frc.robot.Motors.Drive;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import frc.robot.Motors.Intake;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.Lights;
 
 /**
  * The VM is configured to automatically run this class, and to call the

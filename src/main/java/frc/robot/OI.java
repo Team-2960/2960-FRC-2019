@@ -15,7 +15,6 @@ public class OI {
     private Intake intake = Intake.getInstance();
     private Climb climb = Climb.getInstance();
     private Arm arm = Arm.getInstance();
-    private Lights lights = Lights.getInstance();
     //switch on or off
     private boolean switch_angle = false; 
     private boolean DvSwitch = false;
